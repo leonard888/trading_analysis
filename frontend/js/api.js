@@ -80,6 +80,20 @@ const api = {
     },
 
     /**
+     * Get commodity forecast with price predictions
+     */
+    async getCommodityForecast(type) {
+        try {
+            const response = await fetch(`${API_BASE}/commodities/${type}/forecast`);
+            if (!response.ok) throw new Error('Commodity forecast not found');
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching commodity forecast:', error);
+            throw error;
+        }
+    },
+
+    /**
      * Get news
      */
     async getNews(category = null, limit = 50) {
@@ -195,6 +209,32 @@ const api = {
             return await response.json();
         } catch (error) {
             console.error('Error removing from watchlist:', error);
+            throw error;
+        }
+    },
+
+    /**
+     * Analyze position for recommendation
+     */
+    async analyzePosition(symbol, avgPrice, quantity, remainingBalance = 0) {
+        try {
+            const response = await fetch(`${API_BASE}/position/analyze`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    symbol: symbol,
+                    avg_price: avgPrice,
+                    quantity: quantity,
+                    remaining_balance: remainingBalance
+                })
+            });
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.detail || 'Position analysis failed');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error analyzing position:', error);
             throw error;
         }
     }

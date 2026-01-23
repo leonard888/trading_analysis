@@ -161,6 +161,35 @@
                     </div>
                 </div>
 
+                <!-- Position Advisor Section -->
+                <div class="panel-section position-advisor-section">
+                    <h3>💼 Position Advisor</h3>
+                    <div class="position-advisor-content" id="positionAdvisorContent">
+                        <div class="position-inputs">
+                            <div class="position-input-group">
+                                <label for="avgPriceInput">Avg Price (IDR)</label>
+                                <input type="number" id="avgPriceInput" placeholder="9500" min="1">
+                            </div>
+                            <div class="position-input-group">
+                                <label for="quantityInput">Lots (1 lot = 100)</label>
+                                <input type="number" id="quantityInput" placeholder="10" min="1">
+                            </div>
+                            <div class="position-input-group">
+                                <label for="balanceInput">Balance (IDR)</label>
+                                <input type="number" id="balanceInput" placeholder="10000000" min="0">
+                            </div>
+                            <button class="analyze-position-btn" id="analyzePositionBtn">
+                                Analyze Position
+                            </button>
+                        </div>
+                        <div class="position-result" id="positionResult">
+                            <div class="position-placeholder">
+                                Enter your position details above
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- News Section -->
                 <div class="panel-section news-section">
                     <h3>📰 Latest News</h3>

@@ -87,6 +87,7 @@ async def get_forecast(
             "forecast": {
                 "signal": enhanced_forecast["overallSignal"],
                 "confidence": enhanced_forecast["confidence"],
+                "validity": enhanced_forecast.get("validity", "1 week"),
                 "summary": enhanced_forecast["summary"],
                 "reasons": enhanced_forecast["reasons"],
                 "factorBreakdown": enhanced_forecast["factorBreakdown"]
@@ -162,6 +163,7 @@ async def get_quick_forecast(
             "forecast": {
                 "signal": enhanced_forecast["overallSignal"],
                 "confidence": enhanced_forecast["confidence"],
+                "validity": enhanced_forecast.get("validity", "1 week"),
                 "summary": enhanced_forecast["summary"],
                 "reasons": enhanced_forecast["reasons"],
                 "factorBreakdown": enhanced_forecast["factorBreakdown"]

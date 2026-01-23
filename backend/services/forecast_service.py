@@ -186,6 +186,89 @@ def analyze_news_sentiment(news_articles: List[Dict]) -> Dict[str, Any]:
         "keyHeadlines": key_headlines
     }
 
+def detect_commodity_link(symbol: str, name: str = "", sector: str = "") -> Optional[Dict[str, str]]:
+    """
+    Smartly detect commodity correlation based on symbol, name and sector
+    """
+    # 1. Check direct hardcoded map first
+    if symbol in STOCK_COMMODITY_MAP:
+        return STOCK_COMMODITY_MAP[symbol]
+        
+    # 2. Check keywords in Name/Sector
+    name_lower = name.lower()
+    sector_lower = sector.lower()
+    
+    # Coal
+    if "batu bara" in name_lower or "coal" in name_lower or "coal" in sector_lower:
+        return {"commodity": "coal", "commodity_symbol": "MTF=F", "sector": "Coal Mining"}
+        
+    # Gold
+    if "gold" in name_lower or "emas" in name_lower or ("gold" in sector_lower and "mining" in sector_lower):
+        return {"commodity": "gold", "commodity_symbol": "GC=F", "sector": "Gold Mining"}
+        
+    # Nickel
+    if "nickel" in name_lower or "nikel" in name_lower or "nickel" in sector_lower:
+        return {"commodity": "nickel", "commodity_symbol": "^SPGSNI", "sector": "Nickel Mining"}
+        
+    # Oil & Gas
+    if "oil" in name_lower or "petroleum" in name_lower or "petro" in name_lower or "migas" in name_lower or ("oil" in sector_lower and "gas" in sector_lower):
+        return {"commodity": "oil", "commodity_symbol": "CL=F", "sector": "Oil & Gas"}
+        
+    # Palm Oil (CPO) - Approximation using Oil for now (or could add CPO later)
+    # Mapping CPO to Oil as a proxy for energy/commodity sentiment
+    if "sawit" in name_lower or "palm" in name_lower or "plantation" in sector_lower:
+        # CPO isn't in our list yet, skipping or linking to Oil loosely
+        pass
+        
+    # Energy General
+    if "energy" in name_lower or "energi" in name_lower or "energy" in sector_lower:
+        return {"commodity": "oil", "commodity_symbol": "CL=F", "sector": "Energy"}
+        
+    return None
+
+def calculate_validity(
+    df: pd.DataFrame,
+    ta_signals: Dict[str, Any],
+    news_sentiment: Dict[str, Any],
+    sr_levels: Dict[str, float]
+) -> str:
+    """
+    Calculate forecast validity based on market conditions
+    """
+    # Default
+    validity = "1 week"
+    
+    current_price = df['Close'].iloc[-1]
+    
+    # 1. High Volatility Checks
+    # Check Bollinger Bandwidth
+    if ta_signals and "bollingerBands" in ta_signals:
+        bandwidth = ta_signals["bollingerBands"].get("bandwidth", 0)
+        if bandwidth > 10: # High volatility > 10% bandwidth
+            return "24-48 hours"
+            
+    # Check daily change (if huge move)
+    daily_change = abs(df['Close'].iloc[-1] - df['Close'].iloc[-2]) / df['Close'].iloc[-2]
+    if daily_change > 0.05: # > 5% move
+        return "24-48 hours"
+        
+    # 2. Breaking News
+    if news_sentiment and news_sentiment.get("available"):
+        score = abs(news_sentiment.get("score", 0))
+        if score > 0.6: # Strong sentiment
+            return "24 hours"
+            
+    # 3. Breakout/Breakdown (Price breeching key levels)
+    r2 = sr_levels.get("r2")
+    s2 = sr_levels.get("s2")
+    
+    if r2 and current_price > r2:
+        return "Market Close" # Re-evaluate at close
+    if s2 and current_price < s2:
+        return "Market Close"
+        
+    return validity
+
 from analysis.support_resistance import calculate_support_resistance, generate_trading_plan
 
 def generate_forecast_reasons(
@@ -210,8 +293,15 @@ def generate_forecast_reasons(
     
     # Get stock/commodity info
     is_commodity = symbol in COMMODITY_NEWS_MAP
-    commodity_info = STOCK_COMMODITY_MAP.get(symbol, {})
-    commodity_name = COMMODITY_NEWS_MAP[symbol]["name"] if is_commodity else commodity_info.get("commodity", "").replace("_", " ").title()
+    
+    # Smart Commodity Detection
+    from services.stock_service import ALL_STOCKS
+    stock_info = ALL_STOCKS.get(symbol, {})
+    stock_name = stock_info.get("name", "")
+    stock_sector = stock_info.get("sector", "")
+    
+    commodity_info = detect_commodity_link(symbol, stock_name, stock_sector)
+    commodity_name = COMMODITY_NEWS_MAP[symbol]["name"] if is_commodity else (commodity_info.get("commodity", "").replace("_", " ").title() if commodity_info else None)
     
     # 1. Technical Analysis Signals
     if ta_signals and "signals" in ta_signals:
@@ -378,9 +468,13 @@ def generate_forecast_reasons(
         r2=sr_levels.get("r2")
     )
     
+    # Calculate validity
+    validity = calculate_validity(df, ta_signals, news_sentiment, sr_levels)
+
     return {
         "overallSignal": overall_signal,
         "confidence": round(confidence, 3),
+        "validity": validity,
         "summary": summary,
         "reasons": reasons,
         "factorBreakdown": {

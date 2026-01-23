@@ -172,6 +172,7 @@ class EnsembleForecaster:
             "predictedChange": round(magnitude * 100, 2),
             "predictedPrice": round(predicted_price, 2),
             "currentPrice": round(current_price, 2),
+            "validity": "1 week",
             "method": "ensemble"
         }
     
@@ -206,6 +207,7 @@ class EnsembleForecaster:
             "predictedChange": round(returns * 500, 2),
             "predictedPrice": round(predicted_price, 2),
             "currentPrice": round(current_price, 2),
+            "validity": "1 week",
             "method": "rule_based"
         }
     

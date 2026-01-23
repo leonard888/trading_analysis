@@ -6,7 +6,8 @@ from fastapi import APIRouter, Query, HTTPException
 from services.commodity_service import (
     get_commodity_data,
     get_all_commodities,
-    get_available_commodities
+    get_available_commodities,
+    get_commodity_forecast
 )
 
 router = APIRouter()
@@ -24,6 +25,18 @@ async def available_commodities():
     Get list of available commodity types
     """
     return get_available_commodities()
+
+@router.get("/{commodity_type}/forecast")
+async def get_forecast(commodity_type: str):
+    """
+    Get commodity forecast with price predictions and support/resistance
+    """
+    data = get_commodity_forecast(commodity_type)
+    
+    if "error" in data:
+        raise HTTPException(status_code=404, detail=data["error"])
+    
+    return data
 
 @router.get("/{commodity_type}")
 async def get_commodity(

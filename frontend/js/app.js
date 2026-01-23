@@ -107,6 +107,11 @@ class TradingApp {
         document.getElementById('refreshWatchlist')?.addEventListener('click', () => {
             this.loadWatchlist();
         });
+
+        // Position Advisor - Analyze button
+        document.getElementById('analyzePositionBtn')?.addEventListener('click', () => {
+            this.analyzePosition();
+        });
     }
 
     /**
@@ -163,7 +168,25 @@ class TradingApp {
                     const stockData = await window.api.getStock(symbol);
                     if (displayName) stockData.name = displayName; // Override name for commodities
 
-                    const el = this.createWatchlistItem(stockData);
+                    // Determine commodity type key if needed
+                    let commodityType = null;
+                    if (isCommodity) {
+                        // Find key from defaultCommodities by symbol
+                        const found = this.defaultCommodities.find(c => c.symbol === symbol);
+                        if (found) {
+                            // Map symbol back to type key (e.g. 'gold' from GC=F)
+                            // Since defaultCommodities is an array of {symbol, name}, we need the key.
+                            // Actually COMMODITIES keys are just lower case? 
+                            // The selectCommodity expects 'gold', 'silver', etc.
+                            // We used defaultCommodities array which lost the keys. 
+                            // Let's infer type from name or symbol roughly or pass it better.
+                            // Simplified: Just pass isCommodity=true and let createWatchlistItem handle it.
+                            // But selectCommodity needs the type string (e.g. 'gold').
+                            // Let's modify defaultCommodities iteration or mapping.
+                        }
+                    }
+
+                    const el = this.createWatchlistItem(stockData, isCommodity, item);
                     container.appendChild(el);
 
                     // Set active if matches current
@@ -183,7 +206,7 @@ class TradingApp {
     /**
      * Create watchlist item element
      */
-    createWatchlistItem(data) {
+    createWatchlistItem(data, isCommodity = false, originalItem = null) {
         const item = document.createElement('div');
         item.className = `watchlist-item ${data.symbol === this.currentSymbol ? 'active' : ''}`;
         item.dataset.symbol = data.symbol;
@@ -210,7 +233,27 @@ class TradingApp {
             document.querySelectorAll('.watchlist-item').forEach(i => i.classList.remove('active'));
             item.classList.add('active');
 
-            this.selectStock(data.symbol);
+            if (isCommodity && originalItem) {
+                // Infer type for selectCommodity
+                // defaultCommodities was [{symbol, name}, ...]. 
+                // We need to map back to keys: gold, silver, oil etc.
+                // Or we can just try to lowercase the first word of name? 
+                // "Gold Futures" -> "Gold" -> "gold"
+                // "Crude Oil..." -> "Oil" -> "oil"
+                // This is brittle. Better if we stored the type key in defaultCommodities.
+
+                // Better approach: Let's fix defaultCommodities structure in constructor
+                // But for now, let's map known symbols to types
+                const symbolMap = {
+                    'GC=F': 'gold', 'SI=F': 'silver', 'CL=F': 'oil', 'BZ=F': 'brent',
+                    'HG=F': 'copper', 'PL=F': 'platinum', 'PA=F': 'palladium',
+                    'NG=F': 'natural_gas', 'MTF=F': 'coal', '^SPGSNI': 'nickel'
+                };
+                const type = symbolMap[data.symbol] || data.symbol;
+                this.selectCommodity(type);
+            } else {
+                this.selectStock(data.symbol);
+            }
         });
 
         return item;
@@ -347,6 +390,7 @@ class TradingApp {
     async selectCommodity(type) {
         const symbol = type.toUpperCase() + '=F';
         this.currentSymbol = symbol;
+        this.currentCommodityType = type;
 
         document.getElementById('stockSymbol').textContent = symbol;
         document.getElementById('stockName').textContent = type.charAt(0).toUpperCase() + type.slice(1);
@@ -358,6 +402,9 @@ class TradingApp {
                 this.chart.updateData(data);
                 this.updatePriceDisplay(data);
             }
+
+            // Load commodity forecast
+            this.loadCommodityForecast(type);
         } catch (error) {
             console.error('Error loading commodity:', error);
         }
@@ -576,9 +623,13 @@ class TradingApp {
                         </div>
                         <div class="forecast-confidence">
                             Confidence: ${(forecast.confidence * 100).toFixed(1)}%
+                            <span style="font-size: 0.8em; opacity: 0.8; margin-left: 8px;">• Valid until: ${forecast.validity || '1 week'}</span>
                         </div>
                         <div class="forecast-summary">
                             ${forecast.summary || ''}
+                        </div>
+                        <div class="forecast-validity" style="font-size: 0.85em; opacity: 0.8; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px;">
+                            Valid until: ${forecast.validity || '1 week'}
                         </div>
                     </div>
                     ${commodityHtml}
@@ -653,6 +704,113 @@ class TradingApp {
     }
 
     /**
+     * Load commodity forecast
+     */
+    async loadCommodityForecast(type) {
+        const forecastEl = document.getElementById('forecastContent');
+        forecastEl.innerHTML = '<div class="forecast-placeholder">Loading commodity forecast...</div>';
+
+        try {
+            const data = await window.api.getCommodityForecast(type);
+
+            if (data && data.forecast) {
+                // Update indicators if available
+                if (data.indicators) {
+                    this.updateIndicators(data.indicators);
+                    this.updateSignals(data.indicators.signals);
+                }
+
+                // Update patterns
+                this.updatePatterns(data.patterns);
+
+                const forecast = data.forecast;
+                const signalClass = forecast.signal === 'bullish' ? 'bullish' :
+                    forecast.signal === 'bearish' ? 'bearish' : '';
+
+                forecastEl.innerHTML = `
+                    <div class="forecast-card ${signalClass}">
+                        <div class="forecast-signal ${signalClass}">
+                            ${forecast.signal === 'bullish' ? '📈' : forecast.signal === 'bearish' ? '📉' : '➡️'}
+                            ${forecast.signal.toUpperCase()}
+                        </div>
+                        <div class="forecast-confidence">
+                            Confidence: ${(forecast.confidence * 100).toFixed(1)}%
+                            <span style="font-size: 0.8em; opacity: 0.8; margin-left: 8px;">• Valid until: ${forecast.validity || '1 week'}</span>
+                        </div>
+                        <div class="forecast-summary">
+                            Predicted Change: <span class="${forecast.predictedChange >= 0 ? 'positive' : 'negative'}">
+                                ${forecast.predictedChange > 0 ? '+' : ''}${forecast.predictedChange}%
+                            </span>
+                        </div>
+                        <div class="position-targets" style="margin-top: 10px;">
+                            <div class="target-item">
+                                <span class="label">Target (Bull)</span>
+                                <span class="value">${this.formatPrice(forecast.bullishTarget)}</span>
+                            </div>
+                            <div class="target-item">
+                                <span class="label">Target (Bear)</span>
+                                <span class="value">${this.formatPrice(forecast.bearishTarget)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support & Resistance Section -->
+                    ${data.supportResistance ? `
+                    <div class="sr-section">
+                        <div class="section-title">📊 Key Levels</div>
+                        <div class="sr-grid">
+                            ${data.supportResistance.r2 ? `
+                            <div class="sr-row resistance">
+                                <span>R2</span>
+                                <span>${this.formatPrice(data.supportResistance.r2)}</span>
+                            </div>` : ''}
+                            ${data.supportResistance.r1 ? `
+                            <div class="sr-row resistance">
+                                <span>R1</span>
+                                <span>${this.formatPrice(data.supportResistance.r1)}</span>
+                            </div>` : ''}
+                            ${data.supportResistance.pivot ? `
+                            <div class="sr-row pivot">
+                                <span>Pivot</span>
+                                <span>${this.formatPrice(data.supportResistance.pivot)}</span>
+                            </div>` : ''}
+                            ${data.supportResistance.s1 ? `
+                            <div class="sr-row support">
+                                <span>S1</span>
+                                <span>${this.formatPrice(data.supportResistance.s1)}</span>
+                            </div>` : ''}
+                            ${data.supportResistance.s2 ? `
+                            <div class="sr-row support">
+                                <span>S2</span>
+                                <span>${this.formatPrice(data.supportResistance.s2)}</span>
+                            </div>` : ''}
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    <!-- Technical Signals -->
+                    <div class="forecast-reasons">
+                        <div class="reasons-title">Technical Signals</div>
+                        ${data.technicalSignals ? Object.entries(data.technicalSignals)
+                        .filter(([k]) => k !== 'overall')
+                        .map(([k, v]) => `
+                            <div class="position-reason-item">
+                                <span style="text-transform:capitalize">${k.replace(/([A-Z])/g, ' $1').trim()}:</span> 
+                                <span class="${v.signal}" style="margin-left:auto; font-weight:600">${v.signal.toUpperCase()}</span>
+                            </div>
+                        `).join('') : ''}
+                    </div>
+                `;
+            } else {
+                forecastEl.innerHTML = '<div class="forecast-placeholder">Commodity forecast unavailable</div>';
+            }
+        } catch (error) {
+            console.error('Error loading commodity forecast:', error);
+            forecastEl.innerHTML = '<div class="forecast-placeholder">Unable to load commodity forecast</div>';
+        }
+    }
+
+    /**
      * Format price for display
      */
     formatPrice(price) {
@@ -703,6 +861,149 @@ class TradingApp {
         } else {
             overlay.classList.remove('active');
         }
+    }
+
+    /**
+     * Analyze current position for recommendation
+     */
+    async analyzePosition() {
+        if (!this.currentSymbol) {
+            this.updatePositionResult({ error: 'Please select a stock first' });
+            return;
+        }
+
+        const avgPrice = parseFloat(document.getElementById('avgPriceInput').value);
+        const quantity = parseInt(document.getElementById('quantityInput').value);
+        const balance = parseFloat(document.getElementById('balanceInput').value) || 0;
+
+        if (!avgPrice || avgPrice <= 0) {
+            this.updatePositionResult({ error: 'Please enter a valid average price' });
+            return;
+        }
+
+        if (!quantity || quantity <= 0) {
+            this.updatePositionResult({ error: 'Please enter a valid quantity' });
+            return;
+        }
+
+        const resultEl = document.getElementById('positionResult');
+        resultEl.innerHTML = '<div class="position-placeholder">Analyzing position...</div>';
+
+        try {
+            const result = await window.api.analyzePosition(
+                this.currentSymbol,
+                avgPrice,
+                quantity,
+                balance
+            );
+            this.updatePositionResult(result);
+        } catch (error) {
+            console.error('Position analysis error:', error);
+            this.updatePositionResult({ error: error.message || 'Analysis failed' });
+        }
+    }
+
+    /**
+     * Update position advisor result display
+     */
+    updatePositionResult(result) {
+        const resultEl = document.getElementById('positionResult');
+
+        if (result.error) {
+            resultEl.innerHTML = `<div class="position-error">${result.error}</div>`;
+            return;
+        }
+
+        const action = result.action.toLowerCase();
+        const pnlClass = result.position.pnlPercent >= 0 ? 'positive' : 'negative';
+        const pnlSign = result.position.pnlPercent >= 0 ? '+' : '';
+
+        // Action emoji mapping
+        const actionEmoji = {
+            'hold': '⏸️',
+            'cut_loss': '🛑',
+            'take_profit': '💰',
+            'average_down': '⬇️',
+            'average_up': '⬆️'
+        };
+
+        // Format action display name
+        const actionDisplay = result.action.replace('_', ' ');
+
+        resultEl.innerHTML = `
+            <div class="position-result-card action-${action}">
+                <div class="position-action">
+                    <span class="action-badge ${action}">
+                        ${actionEmoji[action] || '📊'} ${actionDisplay}
+                    </span>
+                    <span class="position-confidence">
+                        ${(result.confidence * 100).toFixed(0)}% confidence
+                    </span>
+                </div>
+
+                <div class="position-pnl">
+                    <span class="pnl-label">P/L</span>
+                    <span class="pnl-value ${pnlClass}">
+                        ${pnlSign}${this.formatPrice(result.position.pnl)} (${pnlSign}${result.position.pnlPercent.toFixed(2)}%)
+                    </span>
+                </div>
+
+                <div class="position-targets">
+                    <div class="target-item">
+                        <span class="label">Current</span>
+                        <span class="value">${this.formatPrice(result.position.currentPrice)}</span>
+                    </div>
+                    <div class="target-item">
+                        <span class="label">Target</span>
+                        <span class="value">${this.formatPrice(result.targets.targetPrice)}</span>
+                    </div>
+                    <div class="target-item">
+                        <span class="label">Stop Loss</span>
+                        <span class="value">${this.formatPrice(result.targets.stopLoss)}</span>
+                    </div>
+                    <div class="target-item">
+                        <span class="label">Support</span>
+                        <span class="value">${this.formatPrice(result.targets.support1)}</span>
+                    </div>
+                </div>
+
+                ${result.averaging.potentialLots > 0 ? `
+                <div class="position-targets">
+                    <div class="target-item">
+                        <span class="label">Can Buy</span>
+                        <span class="value">${result.averaging.potentialLots} lots</span>
+                    </div>
+                    <div class="target-item">
+                        <span class="label">New Avg</span>
+                        <span class="value">${this.formatPrice(result.averaging.newAvgPrice)}</span>
+                    </div>
+                </div>
+                ` : ''}
+
+                ${result.entryAdvisor && result.entryAdvisor.suggestedEntry ? `
+                <div class="position-targets" style="border-top: 1px solid var(--border-primary); padding-top: 8px; margin-top: 8px;">
+                    <div class="target-item">
+                        <span class="label">📍 Entry</span>
+                        <span class="value">${this.formatPrice(result.entryAdvisor.suggestedEntry)}</span>
+                    </div>
+                    <div class="target-item">
+                        <span class="label">Zone</span>
+                        <span class="value">${result.entryAdvisor.entryZone || '-'}</span>
+                    </div>
+                </div>
+                <div class="position-reason-item" style="font-size: 0.75rem; color: var(--accent-blue);">
+                    ${result.entryAdvisor.waitForDip ? '⏳ ' : '✅ '}${result.entryAdvisor.reasoning || ''}
+                </div>
+                ` : ''}
+
+                <div class="position-reasons">
+                    <div class="position-reasons-title">Analysis</div>
+                    ${result.reasons.map(r => `
+                        <div class="position-reason-item">${r}</div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
     }
 }
 

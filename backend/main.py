@@ -7,7 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-from routers import stocks, commodities, news, forecast, analysis, watchlist
+from routers import stocks, commodities, news, forecast, analysis, watchlist, position
 
 app = FastAPI(
     title="Trading Forecast API",
@@ -31,6 +31,7 @@ app.include_router(news.router, prefix="/api/news", tags=["News"])
 app.include_router(forecast.router, prefix="/api/forecast", tags=["Forecast"])
 app.include_router(analysis.router, prefix="/api/analysis", tags=["Analysis"])
 app.include_router(watchlist.router, prefix="/api/watchlist", tags=["Watchlist"])
+app.include_router(position.router, prefix="/api/position", tags=["Position"])
 
 @app.get("/")
 async def root():

@@ -9,10 +9,23 @@ from typing import Optional, List, Dict, Any
 from cachetools import TTLCache
 import json
 
-# Cache stock data for 5 minutes
-_cache = TTLCache(maxsize=100, ttl=300)
+# Cache stock data for 1 minute
+_cache = TTLCache(maxsize=100, ttl=60)
 
-# Pre-configured IDX stocks
+import os
+import json
+
+# Load comprehensive stock list
+try:
+    with open(os.path.join(os.path.dirname(__file__), '../data/idx_stocks.json'), 'r') as f:
+        ALL_STOCKS_LIST = json.load(f)
+        # Convert to dictionary for easy lookup
+        ALL_STOCKS = {stock['symbol']: stock for stock in ALL_STOCKS_LIST}
+except Exception as e:
+    print(f"Error loading idx_stocks.json: {e}")
+    ALL_STOCKS = {}
+
+# Pre-configured Popular/Default stocks (subset of all stocks)
 DEFAULT_STOCKS = {
     # Commodity stocks
     "BUMI.JK": {"name": "Bumi Resources", "sector": "Coal"},
@@ -59,6 +72,11 @@ DEFAULT_STOCKS = {
     "BREN.JK": {"name": "Barito Renewables Energy", "sector": "Infrastructure"},
     "BKSL.JK": {"name": "Sentul City", "sector": "Property"},
 }
+
+# Merge default stocks into ALL_STOCKS if missing (fallback)
+for sym, data in DEFAULT_STOCKS.items():
+    if sym not in ALL_STOCKS:
+        ALL_STOCKS[sym] = {"symbol": sym, **data}
 
 def get_stock_data(
     symbol: str, 
@@ -112,14 +130,19 @@ def get_stock_data(
         
         # Add historical data
         for idx, row in hist.iterrows():
-            data["history"].append({
-                "time": int(idx.timestamp()),
-                "open": round(row["Open"], 2),
-                "high": round(row["High"], 2),
-                "low": round(row["Low"], 2),
-                "close": round(row["Close"], 2),
-                "volume": int(row["Volume"])
-            })
+                if interval[-1] in ['d', 'k', 'o', 'y']:  # 1d, 5d, 1wk, 1mo, etc.
+                    time_val = idx.strftime('%Y-%m-%d')
+                else:
+                    time_val = int(idx.timestamp())
+                
+                data["history"].append({
+                    "time": time_val,
+                    "open": round(row["Open"], 2),
+                    "high": round(row["High"], 2),
+                    "low": round(row["Low"], 2),
+                    "close": round(row["Close"], 2),
+                    "volume": int(row["Volume"])
+                })
         
         _cache[cache_key] = data
         return data
@@ -134,7 +157,7 @@ def search_stocks(query: str) -> List[Dict[str, str]]:
     query = query.upper()
     results = []
     
-    for symbol, info in DEFAULT_STOCKS.items():
+    for symbol, info in ALL_STOCKS.items():
         if query in symbol or query in info["name"].upper():
             results.append({
                 "symbol": symbol,
