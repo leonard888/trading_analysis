@@ -110,14 +110,34 @@ def get_stock_data(
         # Get stock info
         info = ticker.info
         
-        # Format data for frontend
+        # Get current price with fallback to historical data
+        current_price = info.get("currentPrice") or info.get("regularMarketPrice")
+        if current_price is None and len(hist) > 0:
+            current_price = hist["Close"].iloc[-1]
+        
+        # Get previous close with fallback to historical data
+        prev_close = info.get("previousClose")
+        if prev_close is None and len(hist) > 1:
+            prev_close = hist["Close"].iloc[-2]
+        elif prev_close is None and len(hist) == 1:
+            prev_close = hist["Open"].iloc[0]  # Use open price as fallback
+        
+        # Calculate change and changePercent
+        change = None
+        change_percent = None
+        if current_price and prev_close and prev_close != 0:
+            change = current_price - prev_close
+            change_percent = (change / prev_close) * 100
+        
         data = {
             "symbol": symbol,
             "name": info.get("longName", DEFAULT_STOCKS.get(symbol, {}).get("name", symbol)),
             "sector": DEFAULT_STOCKS.get(symbol, {}).get("sector", info.get("sector", "Unknown")),
             "currency": info.get("currency", "IDR"),
-            "currentPrice": info.get("currentPrice") or info.get("regularMarketPrice"),
-            "previousClose": info.get("previousClose"),
+            "currentPrice": current_price,
+            "previousClose": prev_close,
+            "change": change,
+            "changePercent": change_percent,
             "open": info.get("open") or info.get("regularMarketOpen"),
             "dayHigh": info.get("dayHigh") or info.get("regularMarketDayHigh"),
             "dayLow": info.get("dayLow") or info.get("regularMarketDayLow"),

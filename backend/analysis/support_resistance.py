@@ -82,13 +82,14 @@ def generate_trading_plan(current_price, signal, s1, s2, r1, r2):
         plan["stop_loss"] = s2 * 0.99
     
     elif signal == "bearish":
-        plan["action"] = "SELL"
-        # Entry near resistance or current
-        plan["entry_zone"] = f"{current_price} - {r1}"
-        # Target S1 or S2
-        plan["take_profit"] = s1 if s1 < current_price * 0.98 else s2
-        # Stop above R2
-        plan["stop_loss"] = r2 * 1.01
+        plan["action"] = "WAIT TO BUY"
+        # For bearish signal: wait for price to drop to support zone before buying
+        # Entry zone should be at or below support levels (cheaper price)
+        plan["entry_zone"] = f"{s2} - {s1}"
+        # Take profit at pivot or R1 (above entry zone)
+        plan["take_profit"] = r1
+        # Stop loss below S2
+        plan["stop_loss"] = s2 * 0.97
         
     # Calculate Risk/Reward
     if plan["take_profit"] and plan["stop_loss"]:

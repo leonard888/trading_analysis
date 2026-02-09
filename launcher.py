@@ -41,17 +41,21 @@ class TradingLauncher:
         # Handle window close
         self.root.protocol("WM_DELETE_WINDOW", self.quit_app)
 
+
     def start_backend(self):
         try:
             # Command to run: python main.py
             # We assume python is in path. If bundled, we might need handling.
             cmd = [sys.executable, "main.py"]
             
+            # Use a log file to prevent pipe deadlock and allow debugging
+            self.log_file = open("backend.log", "w")
+            
             self.process = subprocess.Popen(
                 cmd,
                 cwd=BACKEND_DIR,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                stdout=self.log_file,
+                stderr=subprocess.STDOUT,
                 creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
             )
 
@@ -60,7 +64,6 @@ class TradingLauncher:
             
             self.root.after(0, self.on_backend_started)
             
-            # Monitor process (optional loop)
         except Exception as e:
             self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to start backend:\n{str(e)}"))
 
@@ -70,7 +73,7 @@ class TradingLauncher:
         self.open_browser()
 
     def open_browser(self):
-        webbrowser.open(f'file:///{FRONTEND_FILE}')
+        webbrowser.open('http://localhost:8000')
 
     def quit_app(self):
         if self.process:

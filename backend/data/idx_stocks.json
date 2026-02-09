@@ -1,5 +1,10 @@
 [
     {
+        "symbol": "FAST.JK",
+        "name": "Fast Food Indonesia Tbk.",
+        "sector": "Consumer Cyclical"
+    },
+    {
         "symbol": "ACES.JK",
         "name": "Ace Hardware Indonesia Tbk.",
         "sector": "Consumer Cyclical"

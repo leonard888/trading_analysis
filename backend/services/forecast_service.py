@@ -301,7 +301,13 @@ def generate_forecast_reasons(
     stock_sector = stock_info.get("sector", "")
     
     commodity_info = detect_commodity_link(symbol, stock_name, stock_sector)
-    commodity_name = COMMODITY_NEWS_MAP[symbol]["name"] if is_commodity else (commodity_info.get("commodity", "").replace("_", " ").title() if commodity_info else None)
+    # Safely get commodity name, handling None values
+    if is_commodity:
+        commodity_name = COMMODITY_NEWS_MAP[symbol]["name"]
+    elif commodity_info and commodity_info.get("commodity"):
+        commodity_name = commodity_info["commodity"].replace("_", " ").title()
+    else:
+        commodity_name = None
     
     # 1. Technical Analysis Signals
     if ta_signals and "signals" in ta_signals:

@@ -11,7 +11,7 @@ class TradingApp {
 
         // Default watchlist
         this.defaultWatchlist = [
-            'BREN.JK', 'BRPT.JK', 'TPIA.JK', 'HRTA.JK',
+            'FAST.JK', 'BREN.JK', 'BRPT.JK', 'TPIA.JK', 'HRTA.JK',
             'ADRO.JK', 'PTRO.JK', 'DEWA.JK', 'BUMI.JK',
             'BULL.JK', 'GTSI.JK', 'HUMI.JK', 'BKSL.JK',
             'MLPL.JK', 'INET.JK', 'NINE.JK', 'ANTM.JK',
@@ -140,8 +140,27 @@ class TradingApp {
 
     /**
      * Load watchlist (Stocks and Commodities)
+     * Fetches saved watchlist from backend and merges with defaults
      */
     async loadWatchlist() {
+        try {
+            // Fetch saved watchlist from backend
+            const savedWatchlist = await window.api.getWatchlist();
+
+            if (savedWatchlist && savedWatchlist.length > 0) {
+                // Use saved watchlist (user has customized it)
+                this.defaultWatchlist = savedWatchlist;
+            } else {
+                // First time: save default watchlist to backend
+                for (const symbol of this.defaultWatchlist) {
+                    await window.api.addToWatchlist(symbol);
+                }
+            }
+        } catch (error) {
+            console.error('Error loading watchlist from backend:', error);
+            // Continue with default watchlist if backend fails
+        }
+
         await this.loadSection('stockWatchlist', this.defaultWatchlist);
         await this.loadSection('commodityWatchlist', this.defaultCommodities, true);
     }
@@ -211,8 +230,8 @@ class TradingApp {
         item.className = `watchlist-item ${data.symbol === this.currentSymbol ? 'active' : ''}`;
         item.dataset.symbol = data.symbol;
 
-        const changeClass = data.change >= 0 ? 'positive' : 'negative';
-        const changeSign = data.change >= 0 ? '+' : '';
+        const changeClass = data.changePercent >= 0 ? 'positive' : 'negative';
+        const changeSign = data.changePercent >= 0 ? '+' : '';
 
         // Use name if available (especially for commodities)
         const displayName = data.name || data.symbol.replace('.JK', '').replace('=F', '');
@@ -222,11 +241,21 @@ class TradingApp {
                 <span class="symbol">${data.symbol.replace('.JK', '').replace('=F', '')}</span>
                 <span class="name">${displayName}</span>
             </div>
-            <div class="item-price ${changeClass}">
+            <div class="item-price">
                 <span class="price">${this.formatPrice(data.currentPrice)}</span>
-                <span class="change">${data.changePercent ? (changeSign + data.changePercent.toFixed(2) + '%') : '-'}</span>
+                <span class="change ${changeClass}">${data.changePercent ? (changeSign + data.changePercent.toFixed(2) + '%') : '-'}</span>
             </div>
+            ${!isCommodity ? '<button class="remove-btn" title="Remove from watchlist">×</button>' : ''}
         `;
+
+        // Handle remove button click
+        const removeBtn = item.querySelector('.remove-btn');
+        if (removeBtn) {
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.removeFromWatchlist(data.symbol);
+            });
+        }
 
         item.addEventListener('click', () => {
             // Update active state across all lists
@@ -336,17 +365,34 @@ class TradingApp {
             if (results.length === 0) {
                 resultsEl.innerHTML = '<div class="search-result-item">No results found</div>';
             } else {
-                resultsEl.innerHTML = results.map(r => `
+                resultsEl.innerHTML = results.map(r => {
+                    const isInWatchlist = this.defaultWatchlist.includes(r.symbol);
+                    return `
                     <div class="search-result-item" data-symbol="${r.symbol}">
-                        <div>
+                        <div class="result-info">
                             <span class="symbol">${r.symbol.replace('.JK', '')}</span>
                             <span class="name">${r.name}</span>
                         </div>
-                        <span class="sector">${r.sector}</span>
+                        <div class="result-actions">
+                            <span class="sector">${r.sector}</span>
+                            ${!isInWatchlist ? `<button class="add-watchlist-btn" title="Add to Watchlist">+</button>` : '<span class="in-watchlist">✓</span>'}
+                        </div>
                     </div>
-                `).join('');
+                `}).join('');
 
                 resultsEl.querySelectorAll('.search-result-item').forEach(item => {
+                    // Handle add to watchlist button
+                    const addBtn = item.querySelector('.add-watchlist-btn');
+                    if (addBtn) {
+                        addBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            this.addToWatchlist(item.dataset.symbol);
+                            resultsEl.classList.remove('active');
+                            document.getElementById('searchInput').value = '';
+                        });
+                    }
+
+                    // Handle click on the item itself (select stock)
                     item.addEventListener('click', () => {
                         this.selectStock(item.dataset.symbol);
                         resultsEl.classList.remove('active');
@@ -1004,6 +1050,69 @@ class TradingApp {
                 </div>
             </div>
         `;
+    }
+
+    /**
+     * Add a stock to watchlist
+     */
+    async addToWatchlist(symbol) {
+        // Normalize symbol
+        if (!symbol.endsWith('.JK')) {
+            symbol = symbol.toUpperCase() + '.JK';
+        }
+
+        // Check if already in watchlist
+        if (this.defaultWatchlist.includes(symbol)) {
+            console.log(`${symbol} already in watchlist`);
+            return;
+        }
+
+        try {
+            // Save to backend first
+            await window.api.addToWatchlist(symbol);
+
+            // Add to local watchlist
+            this.defaultWatchlist.push(symbol);
+            console.log(`Added ${symbol} to watchlist (saved to backend)`);
+
+            // Reload watchlist to show the new stock
+            await this.loadSection('stockWatchlist', this.defaultWatchlist);
+
+            // Select the newly added stock
+            await this.selectStock(symbol);
+        } catch (error) {
+            console.error('Failed to add to watchlist:', error);
+        }
+    }
+
+    /**
+     * Remove a stock from watchlist
+     */
+    async removeFromWatchlist(symbol) {
+        const index = this.defaultWatchlist.indexOf(symbol);
+        if (index === -1) {
+            console.log(`${symbol} not in watchlist`);
+            return;
+        }
+
+        try {
+            // Remove from backend first
+            await window.api.removeFromWatchlist(symbol);
+
+            // Remove from local watchlist
+            this.defaultWatchlist.splice(index, 1);
+            console.log(`Removed ${symbol} from watchlist (saved to backend)`);
+
+            // Reload watchlist
+            await this.loadSection('stockWatchlist', this.defaultWatchlist);
+
+            // If the removed stock was the current one, select the first stock
+            if (this.currentSymbol === symbol && this.defaultWatchlist.length > 0) {
+                await this.selectStock(this.defaultWatchlist[0]);
+            }
+        } catch (error) {
+            console.error('Failed to remove from watchlist:', error);
+        }
     }
 }
 
