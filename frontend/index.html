@@ -46,7 +46,7 @@
             </div>
         </header>
 
-        <!-- Main Content -->
+        <!-- Main Content - New Layout -->
         <main class="main-content">
             <!-- Sidebar - Watchlist -->
             <aside class="sidebar">
@@ -76,9 +76,10 @@
                 </div>
             </aside>
 
-            <!-- Chart Section -->
-            <section class="chart-section">
-                <div class="chart-header">
+            <!-- Content Area (Analysis + Chart) -->
+            <div class="content-area">
+                <!-- Stock Header Bar -->
+                <div class="stock-header-bar">
                     <div class="stock-info">
                         <h2 id="stockName">Select a Stock</h2>
                         <span class="stock-symbol" id="stockSymbol"></span>
@@ -87,122 +88,146 @@
                         <span class="current-price" id="currentPrice">-</span>
                         <span class="price-change" id="priceChange">-</span>
                     </div>
-                    <div class="chart-controls">
-                        <div class="period-buttons">
-                            <button class="period-btn" data-period="1d">1D</button>
-                            <button class="period-btn" data-period="5d">5D</button>
-                            <button class="period-btn active" data-period="1mo">1M</button>
-                            <button class="period-btn" data-period="3mo">3M</button>
-                            <button class="period-btn" data-period="6mo">6M</button>
-                            <button class="period-btn" data-period="1y">1Y</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="chart-container" id="chartContainer"></div>
-
-                <!-- Technical Indicators Panel -->
-                <div class="indicators-panel">
-                    <div class="indicator-card">
-                        <span class="indicator-label">RSI (14)</span>
-                        <span class="indicator-value" id="rsiValue">-</span>
-                    </div>
-                    <div class="indicator-card">
-                        <span class="indicator-label">MACD</span>
-                        <span class="indicator-value" id="macdValue">-</span>
-                    </div>
-                    <div class="indicator-card">
-                        <span class="indicator-label">SMA 20</span>
-                        <span class="indicator-value" id="sma20Value">-</span>
-                    </div>
-                    <div class="indicator-card">
-                        <span class="indicator-label">SMA 50</span>
-                        <span class="indicator-value" id="sma50Value">-</span>
-                    </div>
-                    <div class="indicator-card">
-                        <span class="indicator-label">BB Upper</span>
-                        <span class="indicator-value" id="bbUpperValue">-</span>
-                    </div>
-                    <div class="indicator-card">
-                        <span class="indicator-label">BB Lower</span>
-                        <span class="indicator-value" id="bbLowerValue">-</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Right Panel - Forecast & News -->
-            <aside class="right-panel">
-                <!-- Forecast Section -->
-                <div class="panel-section forecast-section">
-                    <h3>🔮 AI Forecast</h3>
-                    <div class="forecast-content" id="forecastContent">
-                        <div class="forecast-placeholder">
-                            Select a stock to see forecast
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Signals Section -->
-                <div class="panel-section signals-section">
-                    <h3>📊 Trading Signals</h3>
-                    <div class="signals-content" id="signalsContent">
-                        <div class="signal-placeholder">
-                            Select a stock to see signals
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Patterns Section -->
-                <div class="panel-section patterns-section">
-                    <h3>📈 Detected Patterns</h3>
-                    <div class="patterns-content" id="patternsContent">
-                        <div class="pattern-placeholder">
-                            No patterns detected
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Position Advisor Section -->
-                <div class="panel-section position-advisor-section">
-                    <h3>💼 Position Advisor</h3>
-                    <div class="position-advisor-content" id="positionAdvisorContent">
-                        <div class="position-inputs">
-                            <div class="position-input-group">
-                                <label for="avgPriceInput">Avg Price (IDR)</label>
-                                <input type="number" id="avgPriceInput" placeholder="9500" min="1">
-                            </div>
-                            <div class="position-input-group">
-                                <label for="quantityInput">Lots (1 lot = 100)</label>
-                                <input type="number" id="quantityInput" placeholder="10" min="1">
-                            </div>
-                            <div class="position-input-group">
-                                <label for="balanceInput">Balance (IDR)</label>
-                                <input type="number" id="balanceInput" placeholder="10000000" min="0">
-                            </div>
-                            <button class="analyze-position-btn" id="analyzePositionBtn">
-                                Analyze Position
-                            </button>
-                        </div>
-                        <div class="position-result" id="positionResult">
-                            <div class="position-placeholder">
-                                Enter your position details above
+                <!-- Analysis Grid - Main Focus -->
+                <div class="analysis-grid">
+                    <!-- AI Forecast Card -->
+                    <div class="analysis-card forecast-card-wrapper">
+                        <h3>🔮 AI Forecast</h3>
+                        <div class="forecast-content" id="forecastContent">
+                            <div class="forecast-placeholder">
+                                Select a stock to see forecast
                             </div>
                         </div>
                     </div>
+
+                    <!-- Right Column: Trading Signals + Position Advisor -->
+                    <div class="right-column-wrapper">
+                        <!-- Trading Signals Card -->
+                        <div class="analysis-card signals-card">
+                            <h3>📊 Trading Signals</h3>
+                            <div class="signals-content" id="signalsContent">
+                                <div class="signal-placeholder">
+                                    Select a stock to see signals
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Portfolio Management Card -->
+                        <div class="analysis-card portfolio-card">
+                            <div class="portfolio-header">
+                                <h3>💼 My Portfolio</h3>
+                                <button class="btn-icon btn-add-position" id="showAddPositionBtn"
+                                    title="Add Position">➕</button>
+                            </div>
+
+                            <!-- Add Position Form (hidden by default) -->
+                            <div class="add-position-form" id="addPositionForm" style="display: none;">
+                                <div class="position-inputs">
+                                    <div class="position-input-group">
+                                        <label for="newPositionSymbol">Symbol</label>
+                                        <input type="text" id="newPositionSymbol" placeholder="BBCA">
+                                    </div>
+                                    <div class="position-input-group">
+                                        <label for="newPositionAvgPrice">Avg Price</label>
+                                        <input type="number" id="newPositionAvgPrice" placeholder="9500" min="1">
+                                    </div>
+                                    <div class="position-input-group">
+                                        <label for="newPositionQuantity">Lots</label>
+                                        <input type="number" id="newPositionQuantity" placeholder="10" min="1">
+                                    </div>
+                                </div>
+                                <div class="add-position-actions">
+                                    <button class="btn-cancel" id="cancelAddPositionBtn">Cancel</button>
+                                    <button class="btn-primary" id="confirmAddPositionBtn">Add to Portfolio</button>
+                                </div>
+                            </div>
+
+                            <!-- Portfolio Positions List -->
+                            <div class="portfolio-positions" id="portfolioPositions">
+                                <div class="portfolio-loading">Loading portfolio...</div>
+                            </div>
+
+                            <!-- Portfolio Summary -->
+                            <div class="portfolio-summary" id="portfolioSummary" style="display: none;">
+                                <div class="summary-item">
+                                    <span class="label">Total P/L</span>
+                                    <span class="value" id="totalPnL">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Detected Patterns Card -->
+                        <div class="analysis-card patterns-card">
+                            <h3>📈 Detected Patterns</h3>
+                            <div class="patterns-content" id="patternsContent">
+                                <div class="pattern-placeholder">
+                                    No patterns detected
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Row: Latest News (Full Width) -->
+                    <div class="analysis-card news-card">
+                        <h3>📰 Latest News</h3>
+                        <div class="news-tabs">
+                            <button class="news-tab active" data-category="">All</button>
+                            <button class="news-tab" data-category="global">Global</button>
+                            <button class="news-tab" data-category="indonesia">ID</button>
+                        </div>
+                        <div class="news-list" id="newsList">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
                 </div>
 
-                <!-- News Section -->
-                <div class="panel-section news-section">
-                    <h3>📰 Latest News</h3>
-                    <div class="news-tabs">
-                        <button class="news-tab active" data-category="">All</button>
-                        <button class="news-tab" data-category="global">Global</button>
-                        <button class="news-tab" data-category="indonesia">ID</button>
+                <!-- Chart Section - Bottom -->
+                <section class="chart-section">
+                    <div class="chart-header">
+                        <h3>📉 Price Chart</h3>
+                        <div class="chart-controls">
+                            <div class="period-buttons">
+                                <button class="period-btn" data-period="1d">1D</button>
+                                <button class="period-btn" data-period="5d">5D</button>
+                                <button class="period-btn" data-period="1mo">1M</button>
+                                <button class="period-btn" data-period="3mo">3M</button>
+                                <button class="period-btn active" data-period="6mo">6M</button>
+                                <button class="period-btn" data-period="1y">1Y</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="news-list" id="newsList">
-                        <!-- Populated by JS -->
+                    <div class="chart-container" id="chartContainer"></div>
+
+                    <!-- Technical Indicators Panel -->
+                    <div class="indicators-panel">
+                        <div class="indicator-card">
+                            <span class="indicator-label">RSI (14)</span>
+                            <span class="indicator-value" id="rsiValue">-</span>
+                        </div>
+                        <div class="indicator-card">
+                            <span class="indicator-label">MACD</span>
+                            <span class="indicator-value" id="macdValue">-</span>
+                        </div>
+                        <div class="indicator-card">
+                            <span class="indicator-label">SMA 20</span>
+                            <span class="indicator-value" id="sma20Value">-</span>
+                        </div>
+                        <div class="indicator-card">
+                            <span class="indicator-label">SMA 50</span>
+                            <span class="indicator-value" id="sma50Value">-</span>
+                        </div>
+                        <div class="indicator-card">
+                            <span class="indicator-label">BB Upper</span>
+                            <span class="indicator-value" id="bbUpperValue">-</span>
+                        </div>
+                        <div class="indicator-card">
+                            <span class="indicator-label">BB Lower</span>
+                            <span class="indicator-value" id="bbLowerValue">-</span>
+                        </div>
                     </div>
-                </div>
-            </aside>
+                </section>
+            </div>
         </main>
     </div>
 
@@ -215,7 +240,7 @@
     <!-- Scripts -->
     <script src="js/api.js"></script>
     <script src="js/chart.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/app.js?v=2"></script>
 </body>
 
 </html>

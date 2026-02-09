@@ -6,6 +6,32 @@ Uses Pivot Points and Local Extrema to find key levels
 import pandas as pd
 import numpy as np
 
+def round_to_idx_tick(price: float) -> float:
+    """
+    Round price to nearest valid IDX tick size.
+    IDX Tick Size Rules:
+    - Price < 200: tick = 1
+    - Price 200-500: tick = 2
+    - Price 500-2000: tick = 5
+    - Price 2000-5000: tick = 10
+    - Price >= 5000: tick = 25
+    """
+    if price <= 0:
+        return 0
+    
+    if price < 200:
+        tick = 1
+    elif price < 500:
+        tick = 2
+    elif price < 2000:
+        tick = 5
+    elif price < 5000:
+        tick = 10
+    else:
+        tick = 25
+    
+    return round(round(price / tick) * tick)
+
 def calculate_support_resistance(df: pd.DataFrame, period: int = 20):
     """
     Calculate Support and Resistance using Pivot Points (Classic) and Rolling Min/Max
@@ -53,11 +79,11 @@ def calculate_support_resistance(df: pd.DataFrame, period: int = 20):
     secondary_resistance = resistance_levels[1] if len(resistance_levels) > 1 else r2
 
     return {
-        "pivot": round(pivot, 2),
-        "s1": round(immediate_support, 2),
-        "s2": round(secondary_support, 2),
-        "r1": round(immediate_resistance, 2),
-        "r2": round(secondary_resistance, 2)
+        "pivot": round_to_idx_tick(pivot),
+        "s1": round_to_idx_tick(immediate_support),
+        "s2": round_to_idx_tick(secondary_support),
+        "r1": round_to_idx_tick(immediate_resistance),
+        "r2": round_to_idx_tick(secondary_resistance)
     }
 
 def generate_trading_plan(current_price, signal, s1, s2, r1, r2):
@@ -72,24 +98,31 @@ def generate_trading_plan(current_price, signal, s1, s2, r1, r2):
         "risk_reward": None
     }
     
+    # Round current price to IDX tick
+    current_price_tick = round_to_idx_tick(current_price)
+    
     if signal == "bullish":
         plan["action"] = "BUY"
         # Entry near support or current price
-        plan["entry_zone"] = f"{s1} - {current_price}"
+        entry_low = round_to_idx_tick(s1)
+        entry_high = current_price_tick
+        plan["entry_zone"] = f"{entry_low} - {entry_high}"
         # Target R1 or R2
-        plan["take_profit"] = r1 if r1 > current_price * 1.02 else r2
+        plan["take_profit"] = round_to_idx_tick(r1) if r1 > current_price * 1.02 else round_to_idx_tick(r2)
         # Stop below S2
-        plan["stop_loss"] = s2 * 0.99
+        plan["stop_loss"] = round_to_idx_tick(s2 * 0.99)
     
     elif signal == "bearish":
         plan["action"] = "WAIT TO BUY"
         # For bearish signal: wait for price to drop to support zone before buying
         # Entry zone should be at or below support levels (cheaper price)
-        plan["entry_zone"] = f"{s2} - {s1}"
+        entry_low = round_to_idx_tick(s2)
+        entry_high = round_to_idx_tick(s1)
+        plan["entry_zone"] = f"{entry_low} - {entry_high}"
         # Take profit at pivot or R1 (above entry zone)
-        plan["take_profit"] = r1
+        plan["take_profit"] = round_to_idx_tick(r1)
         # Stop loss below S2
-        plan["stop_loss"] = s2 * 0.97
+        plan["stop_loss"] = round_to_idx_tick(s2 * 0.97)
         
     # Calculate Risk/Reward
     if plan["take_profit"] and plan["stop_loss"]:

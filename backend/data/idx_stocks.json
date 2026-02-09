@@ -330,6 +330,11 @@
         "sector": "Transportation & Logistic"
     },
     {
+        "symbol": "IATA.JK",
+        "name": "Indonesia Transport & Infrastructure Tbk.",
+        "sector": "Transportation & Logistic"
+    },
+    {
         "symbol": "ICBP.JK",
         "name": "Indofood CBP Sukses Makmur Tbk.",
         "sector": "Consumer Non-Cyclical"
@@ -530,6 +535,11 @@
         "sector": "Consumer Cyclical"
     },
     {
+        "symbol": "RATU.JK",
+        "name": "Mitra Tirta Buwana Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
         "symbol": "SCMA.JK",
         "name": "Surya Citra Media Tbk.",
         "sector": "Consumer Cyclical"
@@ -563,6 +573,11 @@
         "symbol": "SSIA.JK",
         "name": "Surya Semesta Internusa Tbk.",
         "sector": "Properties & Real Estate"
+    },
+    {
+        "symbol": "SURI.JK",
+        "name": "Maja Agung Latexindo Tbk.",
+        "sector": "Basic Materials"
     },
     {
         "symbol": "TAPG.JK",
@@ -623,5 +638,10 @@
         "symbol": "GOTO.JK",
         "name": "GoTo Gojek Tokopedia Tbk.",
         "sector": "Technology"
+    },
+    {
+        "symbol": "ZATA.JK",
+        "name": "Wahana Anugerah Sejahtera Tbk.",
+        "sector": "Consumer Non-Cyclical"
     }
 ]

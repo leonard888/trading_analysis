@@ -90,7 +90,8 @@ async def get_forecast(
                 "validity": enhanced_forecast.get("validity", "1 week"),
                 "summary": enhanced_forecast["summary"],
                 "reasons": enhanced_forecast["reasons"],
-                "factorBreakdown": enhanced_forecast["factorBreakdown"]
+                "factorBreakdown": enhanced_forecast["factorBreakdown"],
+                "nextDayPrediction": enhanced_forecast.get("nextDayPrediction")
             },
             "supportResistance": enhanced_forecast.get("supportResistance"),
             "tradingPlan": enhanced_forecast.get("tradingPlan"),
@@ -166,7 +167,8 @@ async def get_quick_forecast(
                 "validity": enhanced_forecast.get("validity", "1 week"),
                 "summary": enhanced_forecast["summary"],
                 "reasons": enhanced_forecast["reasons"],
-                "factorBreakdown": enhanced_forecast["factorBreakdown"]
+                "factorBreakdown": enhanced_forecast["factorBreakdown"],
+                "nextDayPrediction": enhanced_forecast.get("nextDayPrediction")
             },
             "supportResistance": enhanced_forecast.get("supportResistance"),
             "tradingPlan": enhanced_forecast.get("tradingPlan"),

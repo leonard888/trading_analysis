@@ -269,7 +269,83 @@ def calculate_validity(
         
     return validity
 
-from analysis.support_resistance import calculate_support_resistance, generate_trading_plan
+from analysis.support_resistance import calculate_support_resistance, generate_trading_plan, round_to_idx_tick
+
+def calculate_next_day_prediction(
+    df: pd.DataFrame,
+    sentiment_score: float = 0,
+    overall_signal: str = "neutral",
+    ml_confidence: float = 0
+) -> Dict[str, Any]:
+    """
+    Calculate next day price prediction range based on volatility (ATR) and sentiment bias.
+    """
+    if df.empty or len(df) < 14:
+        return {}
+
+    # 1. Calculate Volatility (ATR - Average True Range)
+    # TR = Max(High-Low, Abs(High-PrevClose), Abs(Low-PrevClose))
+    high = df['High']
+    low = df['Low']
+    close = df['Close']
+    prev_close = close.shift(1)
+    
+    tr1 = high - low
+    tr2 = abs(high - prev_close)
+    tr3 = abs(low - prev_close)
+    
+    tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+    atr = tr.rolling(window=14).mean().iloc[-1]
+    
+    # If ATR is NaN (not enough data), use simple High-Low average
+    if pd.isna(atr):
+        atr = (high - low).mean()
+    
+    current_price = close.iloc[-1]
+    
+    # 2. Determine Bias based on Signal & Sentiment
+    # Base bias from signal
+    bias = 0
+    if overall_signal == "bullish":
+        bias += 0.3
+    elif overall_signal == "bearish":
+        bias -= 0.3
+        
+    # Adjust with sentiment (-1 to 1)
+    bias += sentiment_score * 0.2
+    
+    # Adjust with ML confidence
+    if overall_signal == "bullish":
+        bias += ml_confidence * 0.2
+    elif overall_signal == "bearish":
+        bias -= ml_confidence * 0.2
+
+    # 3. Calculate Range
+    # Standard range is Price +/- ATR
+    # With bias, we shift the range
+    
+    # Predicted High = Current + (ATR * (0.8 + Bias))
+    # Predicted Low = Current - (ATR * (0.8 - Bias))
+    
+    # Volatility factor - wider range for volatile stocks
+    volatility = atr / current_price
+    range_factor = 0.8  # Default width multiplier
+    
+    if volatility > 0.05: # High volatility
+        range_factor = 1.0
+        
+    pred_high = current_price + (atr * (range_factor + bias))
+    pred_low = current_price - (atr * (range_factor - bias))
+    
+    # Safety: Low shouldn't be negative
+    if pred_low < 50: pred_low = 50 # IDX lowest price (usually)
+    
+    return {
+        "high": round_to_idx_tick(pred_high),
+        "low": round_to_idx_tick(pred_low),
+        "bias": round(bias, 2),
+        "volatility": round(atr, 2)
+    }
 
 def generate_forecast_reasons(
     symbol: str,
@@ -415,25 +491,48 @@ def generate_forecast_reasons(
                 "detail": f"News sentiment is {description} with no clear directional bias"
             })
     
-    # 4. ML Prediction
+    # 4. ML Prediction - Always factor in (scaled by confidence)
     if ml_prediction:
         ml_signal = ml_prediction.get("signal", "neutral")
         ml_confidence = ml_prediction.get("confidence", 0.5)
         predicted_change = ml_prediction.get("predictedChange", 0)
         
-        if ml_signal == "bullish" and ml_confidence > 0.6:
-            bullish_factors += ml_confidence
+        # Scale contribution by confidence (even low confidence contributes something)
+        weight = ml_confidence * 1.5  # Max ~1.5 impact
+        
+        if ml_signal == "bullish":
+            bullish_factors += weight
+            if ml_confidence > 0.4:  # Only show in reasons if reasonably confident
+                reasons.append({
+                    "category": "ML Prediction",
+                    "signal": "bullish",
+                    "detail": f"Machine learning model predicts {predicted_change:+.1f}% move with {ml_confidence*100:.0f}% confidence"
+                })
+        elif ml_signal == "bearish":
+            bearish_factors += weight
+            if ml_confidence > 0.4:
+                reasons.append({
+                    "category": "ML Prediction",
+                    "signal": "bearish",
+                    "detail": f"Machine learning model predicts {predicted_change:+.1f}% move with {ml_confidence*100:.0f}% confidence"
+                })
+    
+    # 5. Price Momentum (stock-specific factor)
+    if len(df) >= 5:
+        recent_return = (df['Close'].iloc[-1] - df['Close'].iloc[-5]) / df['Close'].iloc[-5] * 100
+        if recent_return > 3:
+            bullish_factors += 0.5
             reasons.append({
-                "category": "ML Prediction",
+                "category": "Price Momentum",
                 "signal": "bullish",
-                "detail": f"Machine learning model predicts {predicted_change:+.1f}% move with {ml_confidence*100:.0f}% confidence"
+                "detail": f"Stock up {recent_return:.1f}% in the last 5 days - positive momentum"
             })
-        elif ml_signal == "bearish" and ml_confidence > 0.6:
-            bearish_factors += ml_confidence
+        elif recent_return < -3:
+            bearish_factors += 0.5
             reasons.append({
-                "category": "ML Prediction",
-                "signal": "bearish",
-                "detail": f"Machine learning model predicts {predicted_change:+.1f}% move with {ml_confidence*100:.0f}% confidence"
+                "category": "Price Momentum",
+                "signal": "bearish", 
+                "detail": f"Stock down {abs(recent_return):.1f}% in the last 5 days - negative momentum"
             })
     
     # Calculate overall forecast
@@ -477,6 +576,15 @@ def generate_forecast_reasons(
     # Calculate validity
     validity = calculate_validity(df, ta_signals, news_sentiment, sr_levels)
 
+    # Calculate Next Day Prediction
+    next_day_pred = calculate_next_day_prediction(
+        df=df,
+        sentiment_score=news_sentiment.get("score", 0) if news_sentiment else 0,
+        overall_signal=overall_signal,
+        ml_confidence=confidence
+    )
+    print(f"DEBUG: Next Day Prediction for {symbol}: {next_day_pred}") # DEBUG LOG
+
     return {
         "overallSignal": overall_signal,
         "confidence": round(confidence, 3),
@@ -493,5 +601,6 @@ def generate_forecast_reasons(
             "analysis": commodity_analysis if commodity_analysis and commodity_analysis.get("available") else None
         },
         "supportResistance": sr_levels,
-        "tradingPlan": trading_plan
+        "tradingPlan": trading_plan,
+        "nextDayPrediction": next_day_pred
     }

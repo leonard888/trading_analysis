@@ -1,492 +1,119 @@
-INFO:     Started server process [21636]
+INFO:     Started server process [4812]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
 TensorFlow not available, using fallback prediction
-INFO:     127.0.0.1:57026 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53278 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65531 - "GET /js/api.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53278 - "GET /styles/main.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /js/chart.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65531 - "GET /js/app.js?v=2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65531 - "GET /api/watchlist/ HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/FAST.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65531 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /favicon.ico HTTP/1.1" 404 Not Found
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BREN.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BRPT.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/TPIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/ADRO.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/PTRO.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/ANTM.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/CDIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BKSL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/ARCI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/MLPL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/RATU.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/ANTM.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/CDIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BBCA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
 $MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:57026 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63837 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
 HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: ^SPGSNI.JK"}}}
 $^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63837 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
 C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
   end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
 Error fetching detik_finance: [WinError 10054] An existing connection was forcibly closed by the remote host
-INFO:     127.0.0.1:57026 - "GET /api/news/?limit=20 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/FAST.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/analysis/FAST.JK?period=3mo HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63837 - "GET /api/news/?limit=20 HTTP/1.1" 200 OK
+C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
+  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
+C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
+  end = pd.Timestamp.utcnow().ceil("D")
+INFO:     127.0.0.1:63837 - "GET /api/stocks/HRTA.JK?period=6mo&interval=1d HTTP/1.1" 200 OK
 Error fetching detik_finance: [WinError 10054] An existing connection was forcibly closed by the remote host
 Error fetching detik_finance: [WinError 10054] An existing connection was forcibly closed by the remote host
-INFO:     127.0.0.1:57026 - "GET /api/forecast/FAST.JK/quick HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BREN.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BRPT.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/TPIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/ADRO.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/PTRO.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BKSL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/MLPL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/ANTM.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/CDIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BBCA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:57026 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: ^SPGSNI.JK"}}}
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-$^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:57026 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BREN.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/forecast/BREN.JK/quick HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/analysis/BREN.JK?period=3mo HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BRPT.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/TPIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/ADRO.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/PTRO.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BKSL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/MLPL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/ANTM.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/CDIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BBCA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:57026 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-$^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:57026 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:57026 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BRPT.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/analysis/BRPT.JK?period=3mo HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50238 - "GET /api/forecast/BRPT.JK/quick HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/TPIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/ADRO.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/PTRO.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57026 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BKSL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/MLPL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/ANTM.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/CDIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BBCA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:57962 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-$^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:57962 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:57962 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/TPIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/analysis/TPIA.JK?period=3mo HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/forecast/TPIA.JK/quick HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/ADRO.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/PTRO.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BKSL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/MLPL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/ANTM.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/CDIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BBCA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:57962 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-$^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:57962 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:57962 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/forecast/HRTA.JK/quick HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/analysis/HRTA.JK?period=3mo HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/PTRO.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/BKSL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/MLPL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/ANTM.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/CDIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/BBCA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:61574 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:57962 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-$^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:57962 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:61574 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61574 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BKSL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/MLPL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/ANTM.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/CDIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/BBCA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57962 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:57962 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-$^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:57962 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:57962 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/MLPL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/ANTM.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/CDIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BBCA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:53131 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-$^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:53131 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:53131 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/ANTM.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/CDIA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BBCA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:53131 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-$^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:53131 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:53131 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/ANTM.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BBCA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:53131 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-$^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:53131 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:53131 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BBCA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:53131 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-$^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:53131 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:53131 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/stocks/BBCA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53131 - "GET /api/analysis/BBCA.JK?period=3mo HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62731 - "GET /api/forecast/BBCA.JK/quick HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:53742 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-$^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:53742 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:53742 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/analysis/HRTA.JK?period=3mo HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/forecast/HRTA.JK/quick HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/search/query?q=arci HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/HRTA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/DEWA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/BUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/BULL.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/GTSI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/HUMI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/INET.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/NINE.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/MINA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/BUVA.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:53192 - "GET /api/stocks/ARCI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/GC%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/CL%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/SI%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:53192 - "GET /api/stocks/MTF%3DF?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-$^SPGSNI.JK: possibly delisted; no price data found  (period=1mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:53192 - "GET /api/stocks/%5ESPGSNI?period=1mo&interval=1d HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:53192 - "GET /api/stocks/HG%3DF?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/stocks/ARCI.JK?period=1mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53192 - "GET /api/analysis/ARCI.JK?period=3mo HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53742 - "GET /api/forecast/ARCI.JK/quick HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:53742 - "GET /api/commodities/gold?period=1mo&interval=1d HTTP/1.1" 200 OK
-DEBUG REFURNING KEYS: ['type', 'symbol', 'name', 'unit', 'currentPrice', 'forecast', 'supportResistance', 'technicalSignals', 'indicators', 'patterns']
-INFO:     127.0.0.1:53742 - "GET /api/commodities/gold/forecast HTTP/1.1" 200 OK
-$GOLD=F: possibly delisted; no price data found  (period=6mo) (Yahoo error = "No data found, symbol may be delisted")
-INFO:     127.0.0.1:53742 - "GET /api/stocks/GOLD%3DF?period=6mo&interval=1d HTTP/1.1" 404 Not Found
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:51969 - "GET /api/commodities/gold?period=6mo&interval=1d HTTP/1.1" 200 OK
-DEBUG REFURNING KEYS: ['type', 'symbol', 'name', 'unit', 'currentPrice', 'forecast', 'supportResistance', 'technicalSignals', 'indicators', 'patterns']
-INFO:     127.0.0.1:51969 - "GET /api/commodities/gold/forecast HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:65096 - "GET /api/stocks/BUMI.JK?period=6mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65096 - "GET /api/analysis/BUMI.JK?period=3mo HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:65096 - "GET /api/forecast/BUMI.JK/quick HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:50739 - "GET /api/stocks/DEWA.JK?period=6mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50739 - "GET /api/analysis/DEWA.JK?period=3mo HTTP/1.1" 200 OK
-$MTF=F: possibly delisted; no price data found  (period=1mo)
-INFO:     127.0.0.1:50739 - "GET /api/forecast/DEWA.JK/quick HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:58553 - "GET /api/commodities/silver?period=6mo&interval=1d HTTP/1.1" 200 OK
-DEBUG REFURNING KEYS: ['type', 'symbol', 'name', 'unit', 'currentPrice', 'forecast', 'supportResistance', 'technicalSignals', 'indicators', 'patterns']
-INFO:     127.0.0.1:58553 - "GET /api/commodities/silver/forecast HTTP/1.1" 200 OK
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:702: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  start = pd.Timestamp.utcnow().floor("D") - datetime.timedelta(days=365 // 2)
-C:\Users\leona\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\yfinance\scrapers\quote.py:704: Pandas4Warning: Timestamp.utcnow is deprecated and will be removed in a future version. Use Timestamp.now('UTC') instead.
-  end = pd.Timestamp.utcnow().ceil("D")
-INFO:     127.0.0.1:58553 - "GET /api/stocks/HRTA.JK?period=6mo&interval=1d HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58553 - "GET /api/analysis/HRTA.JK?period=3mo HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61602 - "GET /api/forecast/HRTA.JK/quick HTTP/1.1" 200 OK
+DEBUG: Next Day Prediction for HRTA.JK: {'high': 2570, 'low': 2130, 'bias': 0.44, 'volatility': np.float64(222.5)}
+INFO:     127.0.0.1:63837 - "GET /api/forecast/HRTA.JK/quick?_t=1770658520552 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65450 - "GET /api/analysis/HRTA.JK?period=3mo HTTP/1.1" 200 OK

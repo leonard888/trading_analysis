@@ -162,7 +162,7 @@ const api = {
      */
     async getQuickForecast(symbol) {
         try {
-            const response = await fetch(`${API_BASE}/forecast/${symbol}/quick`);
+            const response = await fetch(`${API_BASE}/forecast/${symbol}/quick?_t=${Date.now()}`);
             if (!response.ok) throw new Error('Quick forecast failed');
             return await response.json();
         } catch (error) {
@@ -235,6 +235,92 @@ const api = {
             return await response.json();
         } catch (error) {
             console.error('Error analyzing position:', error);
+            throw error;
+        }
+    },
+
+    // ==================== Portfolio API ====================
+
+    /**
+     * Get all portfolio positions with analysis
+     */
+    async getPortfolio() {
+        try {
+            const response = await fetch(`${API_BASE}/portfolio/?_t=${Date.now()}`);
+            if (!response.ok) throw new Error('Failed to get portfolio');
+            return await response.json();
+        } catch (error) {
+            console.error('Error getting portfolio:', error);
+            throw error;
+        }
+    },
+
+    /**
+     * Add a position to portfolio
+     */
+    async addPortfolioPosition(symbol, avgPrice, quantity, remainingBalance = 0) {
+        try {
+            const response = await fetch(`${API_BASE}/portfolio/add`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    symbol: symbol,
+                    avg_price: avgPrice,
+                    quantity: quantity,
+                    remaining_balance: remainingBalance
+                })
+            });
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.detail || 'Failed to add position');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error adding position:', error);
+            throw error;
+        }
+    },
+
+    /**
+     * Update a portfolio position
+     */
+    async updatePortfolioPosition(symbol, avgPrice, quantity, remainingBalance) {
+        try {
+            const response = await fetch(`${API_BASE}/portfolio/${encodeURIComponent(symbol)}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    avg_price: avgPrice,
+                    quantity: quantity,
+                    remaining_balance: remainingBalance
+                })
+            });
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.detail || 'Failed to update position');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error updating position:', error);
+            throw error;
+        }
+    },
+
+    /**
+     * Remove a position from portfolio (sell)
+     */
+    async removePortfolioPosition(symbol) {
+        try {
+            const response = await fetch(`${API_BASE}/portfolio/${encodeURIComponent(symbol)}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.detail || 'Failed to remove position');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error removing position:', error);
             throw error;
         }
     }

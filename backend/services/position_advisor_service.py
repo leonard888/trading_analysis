@@ -10,7 +10,15 @@ from typing import Dict, Any, Optional
 from datetime import datetime
 
 from services.stock_service import get_stock_data
-from services.forecast_service import generate_forecast_reasons, STOCK_COMMODITY_MAP
+from services.forecast_service import (
+    generate_forecast_reasons, 
+    STOCK_COMMODITY_MAP, 
+    COMMODITY_NEWS_MAP,
+    calculate_next_day_prediction,
+    get_commodity_trend,
+    analyze_news_sentiment
+)
+from services.news_service import get_news_for_stock, get_all_news
 from analysis.support_resistance import calculate_support_resistance
 from analysis.technical_indicators import get_all_indicators
 from ml.ensemble_model import get_ensemble_forecast
@@ -87,18 +95,52 @@ def analyze_position(
         indicators = get_all_indicators(df)
         sr_levels = calculate_support_resistance(df)
         
-        # Get ML forecast
-        ml_forecast = get_ensemble_forecast(df)
-        predicted_change = ml_forecast.get("predictedChange", 0)
-        forecast_signal = ml_forecast.get("signal", "neutral")
-        confidence = ml_forecast.get("confidence", 0.5)
+        # Get ML forecast (needed for generate_forecast_reasons)
+        ml_forecast = get_ensemble_forecast(df, indicators)
         
-        # Calculate target price from forecast
-        target_price = current_price * (1 + predicted_change / 100)
-        target_price = round_to_tick(target_price)
+        # Get commodity correlation if applicable (same as forecast.py)
+        commodity_info = STOCK_COMMODITY_MAP.get(symbol, {})
+        commodity_analysis = None
+        if commodity_info:
+            commodity_symbol = commodity_info.get("commodity_symbol")
+            if commodity_symbol:
+                commodity_analysis = get_commodity_trend(commodity_symbol)
         
+        # Get news and analyze sentiment (same as forecast.py)
+        commodity_news_info = COMMODITY_NEWS_MAP.get(symbol)
+        keywords = commodity_news_info.get("keywords") if commodity_news_info else None
+        
+        news_articles = get_news_for_stock(symbol, limit=15, keywords=keywords)
+        if not news_articles:
+            news_articles = get_all_news(limit=20)
+        news_sentiment = analyze_news_sentiment(news_articles)
+        
+        # Generate FULL enhanced forecast (same as AI Forecast UI)
+        enhanced_forecast = generate_forecast_reasons(
+            symbol=symbol,
+            df=df,
+            ta_signals=indicators,
+            commodity_analysis=commodity_analysis,
+            news_sentiment=news_sentiment,
+            ml_prediction=ml_forecast
+        )
+        
+        # Extract forecast details from enhanced forecast
+        forecast_signal = enhanced_forecast.get("overallSignal", "neutral")
+        confidence = enhanced_forecast.get("confidence", 0.5)
+        
+        # Get predicted change from factor breakdown (scaled to approximate percentage)
+        factor_breakdown = enhanced_forecast.get("factorBreakdown", {})
+        predicted_change = factor_breakdown.get("netScore", 0) * 5  # Approximate % change
+        
+        # Use the SAME nextDayPrediction that's displayed in the UI
+        next_day_prediction = enhanced_forecast.get("nextDayPrediction", {})
+        
+        # Target price from next day prediction high (consistent with UI)
+        target_price = next_day_prediction.get("high", current_price) if next_day_prediction else current_price
+
         # Decision logic
-        action, reasons = _determine_action(
+        action, reasons, target_range = _determine_action(
             current_price=current_price,
             avg_price=avg_price,
             pnl_percent=pnl_percent,
@@ -107,7 +149,8 @@ def analyze_position(
             confidence=confidence,
             sr_levels=sr_levels,
             remaining_balance=remaining_balance,
-            indicators=indicators
+            indicators=indicators,
+            next_day_prediction=next_day_prediction
         )
         
         # Calculate potential actions (in lots)
@@ -145,7 +188,9 @@ def analyze_position(
                 "support1": sr_levels.get("s1"),
                 "support2": sr_levels.get("s2"),
                 "resistance1": sr_levels.get("r1"),
-                "resistance2": sr_levels.get("r2")
+                "resistance1": sr_levels.get("r1"),
+                "resistance2": sr_levels.get("r2"),
+                "targetRange": target_range  # Dynamic TP Range
             },
             "averaging": {
                 "remainingBalance": remaining_balance,
@@ -183,15 +228,17 @@ def _determine_action(
     confidence: float,
     sr_levels: Dict[str, float],
     remaining_balance: float,
-    indicators: Dict[str, Any]
-) -> tuple[str, list[str]]:
+    indicators: Dict[str, Any],
+    next_day_prediction: Dict[str, Any] = None
+) -> tuple[str, list[str], str]:
     """
     Determine recommended action based on all factors
     
     Returns:
-        Tuple of (action, list of reasons)
+        Tuple of (action, list of reasons, target_range)
     """
     reasons = []
+    target_range = None
     
     # Get support/resistance levels
     s1 = sr_levels.get("s1", 0)
@@ -209,24 +256,52 @@ def _determine_action(
             reasons.append(f"Forecast is {forecast_signal} with {confidence*100:.0f}% confidence")
             if current_price < s1:
                 reasons.append(f"Price broke below support at {s1}")
-            return "CUT_LOSS", reasons
+            return "CUT_LOSS", reasons, None
         else:
             # Loss but bullish forecast - consider holding or averaging
             reasons.append(f"Position is down {abs(pnl_percent):.1f}% but forecast is bullish")
     
     # --- TAKE PROFIT: Dynamic based on forecast ---
+    take_profit_triggered = False
+    
     if pnl_percent > 0 and predicted_change < 0:
         # In profit and forecast predicts decline
         reasons.append(f"Position is up {pnl_percent:.1f}%")
         reasons.append(f"Forecast predicts {predicted_change:.1f}% change (decline)")
         if current_price >= r1:
             reasons.append(f"Price is at/near resistance {r1}")
-        return "TAKE_PROFIT", reasons
+        take_profit_triggered = True
     
-    if pnl_percent >= 15 and forecast_signal != "bullish":
+    elif pnl_percent >= 15 and forecast_signal != "bullish":
         reasons.append(f"Position is up {pnl_percent:.1f}% (>15%)")
         reasons.append(f"Forecast is not strongly bullish")
-        return "TAKE_PROFIT", reasons
+        take_profit_triggered = True
+        
+    if take_profit_triggered:
+        # Calculate Dynamic TP Range
+        if next_day_prediction and next_day_prediction.get("high"):
+            pred_high = next_day_prediction["high"]
+            # Logic: Range between R1 and Predicted High
+            # If R1 is too close to current price, use Pred High or R2
+            
+            lower_bound = r1
+            upper_bound = max(pred_high, r2 if r2 < float('inf') else pred_high)
+            
+            # Ensure lower bound is at least current price or slightly higher
+            lower_bound = max(lower_bound, current_price)
+            
+            # If pred high is lower than current, maybe profit taking is urgent
+            if pred_high < current_price:
+                target_range = f"{current_price} (Now)"
+                reasons.append(f"Model predicts price drop to {pred_high} tomorrow")
+            else:
+                target_range = f"{lower_bound} - {upper_bound}"
+                reasons.append(f"Target range based on Tomorrow's High ({pred_high}) & Resistance")
+        else:
+            # Fallback if no prediction
+            target_range = f"{r1} - {r2}" if r2 < float('inf') else f"{r1}+"
+            
+        return "TAKE_PROFIT", reasons, target_range
     
     # --- AVERAGE DOWN: In loss but bullish outlook ---
     if pnl_percent < 0 and pnl_percent > -8:
@@ -239,7 +314,10 @@ def _determine_action(
                     if current_price <= s1 * 1.02:
                         reasons.append(f"Price is near support level {s1}")
                     reasons.append(f"Can buy {potential_shares} more shares with available balance")
-                    return "AVERAGE_DOWN", reasons
+                    if current_price <= s1 * 1.02:
+                        reasons.append(f"Price is near support level {s1}")
+                    reasons.append(f"Can buy {potential_shares} more shares with available balance")
+                    return "AVERAGE_DOWN", reasons, None
     
     # --- AVERAGE UP: In profit with strong bullish momentum ---
     if pnl_percent > 0 and pnl_percent < 10:
@@ -252,7 +330,7 @@ def _determine_action(
                     if rsi < 70:
                         reasons.append(f"RSI at {rsi:.0f} (not overbought)")
                     reasons.append(f"Can add {potential_shares} shares to ride the trend")
-                    return "AVERAGE_UP", reasons
+                    return "AVERAGE_UP", reasons, None
     
     # --- HOLD: Default action ---
     reasons.append(f"Current P/L: {pnl_percent:+.1f}%")
@@ -268,7 +346,33 @@ def _determine_action(
     elif forecast_signal == "neutral":
         reasons.append("Neutral outlook, wait for clearer signals")
     
-    return "HOLD", reasons
+    # Calculate target range for HOLD using next_day_prediction
+    # This ensures TP target aligns with "Prediction for Tomorrow"
+    if next_day_prediction and next_day_prediction.get("high"):
+        pred_high = next_day_prediction["high"]
+        pred_low = next_day_prediction.get("low", current_price * 0.98)
+        
+        # For bullish signal, use predicted high as TP target
+        if forecast_signal == "bullish" or predicted_change > 0:
+            # TP range: from current price (or R1) to predicted high
+            lower_tp = max(current_price, r1) if r1 < float('inf') else current_price
+            upper_tp = max(pred_high, r2 if r2 < float('inf') else pred_high)
+            target_range = f"{round_to_tick(lower_tp)} - {round_to_tick(upper_tp)}"
+            reasons.append(f"Target based on Tomorrow's Prediction High ({pred_high:.0f})")
+        else:
+            # For bearish/neutral, still show the predicted range for reference
+            target_range = f"{round_to_tick(pred_low)} - {round_to_tick(pred_high)}"
+    else:
+        # Fallback to S/R levels
+        if r1 < float('inf') and r2 < float('inf'):
+            target_range = f"{round_to_tick(r1)} - {round_to_tick(r2)}"
+        elif r1 < float('inf'):
+            target_range = f"{round_to_tick(r1)}+"
+        else:
+            target_range = None
+    
+    return "HOLD", reasons, target_range
+
 
 
 def _calculate_entry_advice(

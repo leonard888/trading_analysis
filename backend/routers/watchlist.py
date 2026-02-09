@@ -10,11 +10,14 @@ import os
 
 router = APIRouter()
 
-# Simple file-based storage for watchlist
-WATCHLIST_FILE = "data/watchlist.json"
+# Use absolute path based on script location for reliable file access
+# This ensures the file is always found regardless of cwd
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+_DATA_DIR = os.path.join(os.path.dirname(_SCRIPT_DIR), "data")
+WATCHLIST_FILE = os.path.join(_DATA_DIR, "watchlist.json")
 
 def _ensure_data_dir():
-    os.makedirs("data", exist_ok=True)
+    os.makedirs(_DATA_DIR, exist_ok=True)
 
 def _load_watchlist() -> List[str]:
     _ensure_data_dir()
