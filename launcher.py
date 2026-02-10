@@ -80,6 +80,13 @@ class TradingLauncher:
             self.status_label.config(text="Stopping Backend...")
             self.process.terminate()
             self.process.wait()
+        # Clean up log file
+        if hasattr(self, 'log_file') and self.log_file:
+            self.log_file.close()
+            try:
+                os.remove("backend.log")
+            except Exception:
+                pass
         self.root.destroy()
 
 if __name__ == "__main__":
