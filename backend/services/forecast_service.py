@@ -278,67 +278,94 @@ def calculate_next_day_prediction(
     ml_confidence: float = 0
 ) -> Dict[str, Any]:
     """
-    Calculate next day price prediction range based on volatility (ATR) and sentiment bias.
+    Calculate next day price prediction range using historical percentile analysis.
+    
+    Uses actual historical next-day high/low moves to produce realistic predictions,
+    then applies a small directional bias based on signal/sentiment.
     """
     if df.empty or len(df) < 14:
         return {}
 
-    # 1. Calculate Volatility (ATR - Average True Range)
-    # TR = Max(High-Low, Abs(High-PrevClose), Abs(Low-PrevClose))
     high = df['High']
     low = df['Low']
     close = df['Close']
     prev_close = close.shift(1)
+    current_price = close.iloc[-1]
     
+    # 1. Calculate ATR for reference/display
     tr1 = high - low
     tr2 = abs(high - prev_close)
     tr3 = abs(low - prev_close)
-    
     tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
     atr = tr.rolling(window=14).mean().iloc[-1]
-    
-    # If ATR is NaN (not enough data), use simple High-Low average
     if pd.isna(atr):
         atr = (high - low).mean()
     
-    current_price = close.iloc[-1]
+    # 2. Calculate ACTUAL historical next-day moves (percentage from prev close)
+    # How much does the High typically go above the previous Close?
+    next_high_pct = ((high - prev_close) / prev_close * 100).dropna()
+    # How much does the Low typically go below the previous Close?
+    next_low_pct = ((low - prev_close) / prev_close * 100).dropna()
     
-    # 2. Determine Bias based on Signal & Sentiment
-    # Base bias from signal
+    # Remove extreme outliers (beyond 99th percentile)
+    if len(next_high_pct) > 5:
+        upper_clip = next_high_pct.quantile(0.99)
+        lower_clip = next_low_pct.quantile(0.01)
+        next_high_pct = next_high_pct.clip(upper=upper_clip)
+        next_low_pct = next_low_pct.clip(lower=lower_clip)
+    
+    # 3. Use percentiles for prediction range
+    # 75th percentile for high (optimistic but realistic)
+    # 25th percentile for low (pessimistic but realistic)
+    base_high_pct = next_high_pct.quantile(0.75) if len(next_high_pct) > 5 else 2.0
+    base_low_pct = next_low_pct.quantile(0.25) if len(next_low_pct) > 5 else -2.0
+    
+    # 4. Determine directional bias (small shift, NOT amplification)
     bias = 0
     if overall_signal == "bullish":
         bias += 0.3
     elif overall_signal == "bearish":
         bias -= 0.3
-        
+    
     # Adjust with sentiment (-1 to 1)
-    bias += sentiment_score * 0.2
+    bias += sentiment_score * 0.15
     
-    # Adjust with ML confidence
+    # Adjust with ML confidence (smaller weight)
     if overall_signal == "bullish":
-        bias += ml_confidence * 0.2
+        bias += ml_confidence * 0.15
     elif overall_signal == "bearish":
-        bias -= ml_confidence * 0.2
-
-    # 3. Calculate Range
-    # Standard range is Price +/- ATR
-    # With bias, we shift the range
+        bias -= ml_confidence * 0.15
     
-    # Predicted High = Current + (ATR * (0.8 + Bias))
-    # Predicted Low = Current - (ATR * (0.8 - Bias))
+    # Clamp bias to reasonable range
+    bias = max(-0.6, min(0.6, bias))
     
-    # Volatility factor - wider range for volatile stocks
-    volatility = atr / current_price
-    range_factor = 0.8  # Default width multiplier
+    # 5. Apply bias as a SHIFT to the range (not amplification)
+    # Bias shifts both high and low by a small percentage of ATR
+    atr_pct = (atr / current_price) * 100  # ATR as percentage
+    shift_pct = bias * atr_pct * 0.15  # Small shift (max ~0.5% of price)
     
-    if volatility > 0.05: # High volatility
-        range_factor = 1.0
-        
-    pred_high = current_price + (atr * (range_factor + bias))
-    pred_low = current_price - (atr * (range_factor - bias))
+    # Final predicted percentages
+    pred_high_pct = base_high_pct + shift_pct
+    pred_low_pct = base_low_pct + shift_pct
     
-    # Safety: Low shouldn't be negative
-    if pred_low < 50: pred_low = 50 # IDX lowest price (usually)
+    # 6. Apply hard caps based on realistic IDX daily limits
+    # Normal IDX daily limit is ±20-25%, but realistic daily moves are much smaller
+    max_move_pct = min(atr_pct * 0.8, 7.0)  # Cap at 7% or 80% of ATR%
+    
+    pred_high_pct = min(pred_high_pct, max_move_pct)
+    pred_low_pct = max(pred_low_pct, -max_move_pct)
+    
+    # Ensure high is above current price and low is below for meaningful range
+    pred_high_pct = max(pred_high_pct, 0.5)  # At least +0.5%
+    pred_low_pct = min(pred_low_pct, -0.5)   # At least -0.5%
+    
+    # 7. Calculate final prices
+    pred_high = current_price * (1 + pred_high_pct / 100)
+    pred_low = current_price * (1 + pred_low_pct / 100)
+    
+    # Safety: Low shouldn't go below IDX minimum
+    if pred_low < 50:
+        pred_low = 50
     
     return {
         "high": round_to_idx_tick(pred_high),
