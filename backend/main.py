@@ -13,7 +13,7 @@ from fastapi.responses import FileResponse
 import os
 
 # ... existing imports ...
-from routers import stocks, commodities, news, forecast, analysis, watchlist, position, portfolio
+from routers import stocks, commodities, news, forecast, analysis, watchlist, position, portfolio, screener
 
 app = FastAPI(
     title="Trading Forecast API",
@@ -63,6 +63,7 @@ app.include_router(analysis.router, prefix="/api/analysis", tags=["Analysis"])
 app.include_router(watchlist.router, prefix="/api/watchlist", tags=["Watchlist"])
 app.include_router(position.router, prefix="/api/position", tags=["Position"])
 app.include_router(portfolio.router, prefix="/api/portfolio", tags=["Portfolio"])
+app.include_router(screener.router, prefix="/api/screener", tags=["Screener"])
 
 @app.get("/")
 async def read_index():

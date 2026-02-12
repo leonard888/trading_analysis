@@ -200,7 +200,7 @@ def get_commodity_forecast(commodity_type: str) -> Dict[str, Any]:
         confidence = ml_forecast.get("confidence", 0.5)
         
         # Calculate support/resistance
-        sr_levels = calculate_support_resistance(df)
+        sr_levels = calculate_support_resistance(df, is_commodity=True)
         
         # Detect patterns
         patterns = detect_all_patterns(df)

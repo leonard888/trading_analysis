@@ -323,6 +323,20 @@ const api = {
             console.error('Error removing position:', error);
             throw error;
         }
+    },
+
+    // ==================== Screener API ====================
+
+    // Scan all stocks for screener
+    async scanStocks() {
+        try {
+            const response = await fetch(`${API_BASE}/screener/scan`);
+            if (!response.ok) throw new Error('Scan failed');
+            return await response.json();
+        } catch (error) {
+            console.error('Error scanning stocks:', error);
+            throw error;
+        }
     }
 };
 

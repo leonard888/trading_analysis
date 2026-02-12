@@ -74,6 +74,13 @@
                         <!-- Populated by JS -->
                     </div>
                 </div>
+
+                <!-- Screener Button -->
+                <div class="sidebar-screener">
+                    <button class="btn-screener" id="openScreenerBtn" title="Stock Screener">
+                        🔍 Stock Screener
+                    </button>
+                </div>
             </aside>
 
             <!-- Content Area (Analysis + Chart) -->
@@ -235,6 +242,86 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
         <span>Loading...</span>
+    </div>
+
+    <!-- Stock Screener Overlay -->
+    <div class="screener-overlay" id="screenerOverlay" style="display: none;">
+        <div class="screener-container">
+            <div class="screener-header">
+                <h2>🔍 Stock Screener</h2>
+                <div class="screener-header-actions">
+                    <span class="screener-status" id="screenerStatus">Ready</span>
+                    <button class="btn-screener-scan" id="screenerScanBtn">🔄 Scan</button>
+                    <button class="btn-screener-close" id="closeScreenerBtn">✕</button>
+                </div>
+            </div>
+
+            <div class="screener-filters">
+                <div class="filter-group">
+                    <label>Price Range</label>
+                    <div class="filter-inputs">
+                        <input type="number" id="filterPriceMin" placeholder="Min" value="50">
+                        <span>—</span>
+                        <input type="number" id="filterPriceMax" placeholder="Max" value="50000">
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>Sentiment Score</label>
+                    <div class="filter-inputs">
+                        <input type="range" id="filterSentimentMin" min="0" max="100" value="0">
+                        <span id="sentimentMinLabel">0</span>
+                        <span>—</span>
+                        <input type="range" id="filterSentimentMax" min="0" max="100" value="100">
+                        <span id="sentimentMaxLabel">100</span>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>Confidence</label>
+                    <div class="filter-inputs">
+                        <input type="range" id="filterConfidenceMin" min="0" max="100" value="0">
+                        <span id="confidenceMinLabel">0%</span>
+                        <span>—</span>
+                        <input type="range" id="filterConfidenceMax" min="0" max="100" value="100">
+                        <span id="confidenceMaxLabel">100%</span>
+                    </div>
+                </div>
+                <div class="filter-group filter-signal">
+                    <label>Signal</label>
+                    <div class="filter-inputs">
+                        <button class="signal-filter-btn active" data-signal="all">All</button>
+                        <button class="signal-filter-btn" data-signal="bullish">🟢 Bullish</button>
+                        <button class="signal-filter-btn" data-signal="bearish">🔴 Bearish</button>
+                        <button class="signal-filter-btn" data-signal="neutral">🟡 Neutral</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="screener-info">
+                <span id="screenerCount">0 stocks found</span>
+                <span id="screenerScanTime"></span>
+            </div>
+
+            <div class="screener-table-wrapper">
+                <table class="screener-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-sort="rank">#</th>
+                            <th class="sortable" data-sort="symbol">Symbol</th>
+                            <th>Name</th>
+                            <th>Sector</th>
+                            <th class="sortable" data-sort="price">Price</th>
+                            <th class="sortable" data-sort="changePct">Change</th>
+                            <th class="sortable" data-sort="signal">Signal</th>
+                            <th class="sortable active-sort" data-sort="sentimentScore">Sentiment</th>
+                            <th class="sortable" data-sort="confidence">Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody id="screenerTableBody">
+                        <tr><td colspan="9" class="screener-empty">Click "Scan" to analyze all stocks</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->

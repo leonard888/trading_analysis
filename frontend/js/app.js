@@ -27,6 +27,12 @@ class TradingApp {
             { symbol: '^SPGSNI', name: 'Nickel' },
             { symbol: 'HG=F', name: 'Copper' }
         ];
+
+        // Screener state
+        this.screenerData = [];
+        this.screenerSortBy = 'sentimentScore';
+        this.screenerSortAsc = false;
+        this.screenerSignalFilter = 'all';
     }
 
     /**
@@ -121,6 +127,85 @@ class TradingApp {
         // Portfolio Management - Confirm add
         document.getElementById('confirmAddPositionBtn')?.addEventListener('click', () => {
             this.addPortfolioPosition();
+        });
+
+        // ==================== Screener Event Listeners ====================
+
+        // Open/Close screener
+        document.getElementById('openScreenerBtn')?.addEventListener('click', () => {
+            this.openScreener();
+        });
+        document.getElementById('closeScreenerBtn')?.addEventListener('click', () => {
+            this.closeScreener();
+        });
+
+        // Scan button
+        document.getElementById('screenerScanBtn')?.addEventListener('click', () => {
+            this.scanStocks();
+        });
+
+        // Close on overlay background click
+        document.getElementById('screenerOverlay')?.addEventListener('click', (e) => {
+            if (e.target.id === 'screenerOverlay') this.closeScreener();
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('screenerOverlay')?.style.display === 'flex') {
+                this.closeScreener();
+            }
+        });
+
+        // Filter inputs - Price
+        document.getElementById('filterPriceMin')?.addEventListener('input', () => this.filterAndRenderScreener());
+        document.getElementById('filterPriceMax')?.addEventListener('input', () => this.filterAndRenderScreener());
+
+        // Filter inputs - Sentiment range
+        document.getElementById('filterSentimentMin')?.addEventListener('input', (e) => {
+            document.getElementById('sentimentMinLabel').textContent = e.target.value;
+            this.filterAndRenderScreener();
+        });
+        document.getElementById('filterSentimentMax')?.addEventListener('input', (e) => {
+            document.getElementById('sentimentMaxLabel').textContent = e.target.value;
+            this.filterAndRenderScreener();
+        });
+
+        // Filter inputs - Confidence range
+        document.getElementById('filterConfidenceMin')?.addEventListener('input', (e) => {
+            document.getElementById('confidenceMinLabel').textContent = e.target.value + '%';
+            this.filterAndRenderScreener();
+        });
+        document.getElementById('filterConfidenceMax')?.addEventListener('input', (e) => {
+            document.getElementById('confidenceMaxLabel').textContent = e.target.value + '%';
+            this.filterAndRenderScreener();
+        });
+
+        // Signal filter buttons
+        document.querySelectorAll('.signal-filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.signal-filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                this.screenerSignalFilter = e.target.dataset.signal;
+                this.filterAndRenderScreener();
+            });
+        });
+
+        // Sortable column headers
+        document.querySelectorAll('.screener-table .sortable').forEach(th => {
+            th.addEventListener('click', (e) => {
+                const sort = e.target.dataset.sort;
+                if (this.screenerSortBy === sort) {
+                    this.screenerSortAsc = !this.screenerSortAsc;
+                } else {
+                    this.screenerSortBy = sort;
+                    this.screenerSortAsc = false; // Default descending for new column
+                }
+                // Update active class
+                document.querySelectorAll('.screener-table .sortable').forEach(h => h.classList.remove('active-sort', 'asc'));
+                e.target.classList.add('active-sort');
+                if (this.screenerSortAsc) e.target.classList.add('asc');
+                this.filterAndRenderScreener();
+            });
         });
     }
 
@@ -1560,6 +1645,125 @@ class TradingApp {
             console.error('Error removing position:', error);
             alert('Failed to remove position: ' + (error.message || 'Unknown error'));
         }
+    }
+
+    // ==================== Stock Screener ====================
+
+    openScreener() {
+        document.getElementById('screenerOverlay').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeScreener() {
+        document.getElementById('screenerOverlay').style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    async scanStocks() {
+        const statusEl = document.getElementById('screenerStatus');
+        const scanBtn = document.getElementById('screenerScanBtn');
+        const tbody = document.getElementById('screenerTableBody');
+
+        statusEl.textContent = 'Scanning...';
+        statusEl.className = 'screener-status scanning';
+        scanBtn.disabled = true;
+        tbody.innerHTML = '<tr><td colspan="9" class="screener-empty"><div class="screener-loading">🔄 Scanning all stocks... This may take 1-2 minutes</div></td></tr>';
+
+        try {
+            const data = await window.api.scanStocks();
+            this.screenerData = data.stocks || [];
+
+            document.getElementById('screenerScanTime').textContent = `Scan time: ${data.scanTime}s`;
+            statusEl.textContent = 'Done';
+            statusEl.className = 'screener-status done';
+
+            this.filterAndRenderScreener();
+        } catch (error) {
+            console.error('Scan failed:', error);
+            statusEl.textContent = 'Error';
+            statusEl.className = 'screener-status error';
+            tbody.innerHTML = '<tr><td colspan="9" class="screener-empty">Scan failed. Please try again.</td></tr>';
+        } finally {
+            scanBtn.disabled = false;
+        }
+    }
+
+    filterAndRenderScreener() {
+        const priceMin = parseFloat(document.getElementById('filterPriceMin').value) || 0;
+        const priceMax = parseFloat(document.getElementById('filterPriceMax').value) || 999999;
+        const sentimentMin = parseInt(document.getElementById('filterSentimentMin').value) || 0;
+        const sentimentMax = parseInt(document.getElementById('filterSentimentMax').value) || 100;
+        const confidenceMin = parseInt(document.getElementById('filterConfidenceMin').value) / 100 || 0;
+        const confidenceMax = parseInt(document.getElementById('filterConfidenceMax').value) / 100 || 1;
+
+        let filtered = this.screenerData.filter(s => {
+            if (s.price < priceMin || s.price > priceMax) return false;
+            if (s.sentimentScore < sentimentMin || s.sentimentScore > sentimentMax) return false;
+            if (s.confidence < confidenceMin || s.confidence > confidenceMax) return false;
+            if (this.screenerSignalFilter !== 'all' && s.signal !== this.screenerSignalFilter) return false;
+            return true;
+        });
+
+        // Sort
+        const sortKey = this.screenerSortBy;
+        const asc = this.screenerSortAsc;
+        filtered.sort((a, b) => {
+            let va = a[sortKey], vb = b[sortKey];
+            if (typeof va === 'string') va = va.toLowerCase();
+            if (typeof vb === 'string') vb = vb.toLowerCase();
+            if (va < vb) return asc ? -1 : 1;
+            if (va > vb) return asc ? 1 : -1;
+            return 0;
+        });
+
+        document.getElementById('screenerCount').textContent = `${filtered.length} stocks found`;
+        this.renderScreenerTable(filtered);
+    }
+
+    renderScreenerTable(stocks) {
+        const tbody = document.getElementById('screenerTableBody');
+
+        if (!stocks.length) {
+            tbody.innerHTML = '<tr><td colspan="9" class="screener-empty">No stocks match filters</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = stocks.map((s, i) => {
+            const changeCls = s.changePct >= 0 ? 'positive' : 'negative';
+            const changeSign = s.changePct >= 0 ? '+' : '';
+            const signalEmoji = s.signal === 'bullish' ? '🟢' : s.signal === 'bearish' ? '🔴' : '🟡';
+
+            // Sentiment color
+            let sentimentCls = 'neutral';
+            if (s.sentimentScore >= 65) sentimentCls = 'bullish';
+            else if (s.sentimentScore <= 35) sentimentCls = 'bearish';
+
+            const symbolClean = s.symbol.replace('.JK', '');
+
+            return `
+                <tr class="screener-row signal-${s.signal}" onclick="window.app.selectStockFromScreener('${s.symbol}')">
+                    <td class="rank">${i + 1}</td>
+                    <td class="symbol">${symbolClean}</td>
+                    <td class="name">${s.name.substring(0, 25)}</td>
+                    <td class="sector">${s.sector.substring(0, 18)}</td>
+                    <td class="price">${this.formatPrice(s.price)}</td>
+                    <td class="change ${changeCls}">${changeSign}${s.changePct.toFixed(2)}%</td>
+                    <td class="signal">${signalEmoji} ${s.signal}</td>
+                    <td class="sentiment ${sentimentCls}">
+                        <div class="sentiment-bar-wrapper">
+                            <div class="sentiment-bar" style="width: ${s.sentimentScore}%"></div>
+                            <span>${s.sentimentScore.toFixed(0)}</span>
+                        </div>
+                    </td>
+                    <td class="confidence">${(s.confidence * 100).toFixed(0)}%</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    selectStockFromScreener(symbol) {
+        this.closeScreener();
+        this.selectStock(symbol);
     }
 }
 

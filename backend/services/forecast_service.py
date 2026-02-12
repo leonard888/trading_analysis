@@ -392,7 +392,7 @@ def generate_forecast_reasons(
     current_price = df['Close'].iloc[-1]
     
     # Calculate Support & Resistance
-    sr_levels = calculate_support_resistance(df)
+    sr_levels = calculate_support_resistance(df, is_commodity=symbol.endswith('=F'))
     
     # Get stock/commodity info
     is_commodity = symbol in COMMODITY_NEWS_MAP

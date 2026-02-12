@@ -32,7 +32,19 @@ def round_to_idx_tick(price: float) -> float:
     
     return round(round(price / tick) * tick)
 
-def calculate_support_resistance(df: pd.DataFrame, period: int = 20):
+
+def _round_price(price: float, is_commodity: bool = False) -> float:
+    """
+    Round price based on asset type.
+    - IDX stocks: use IDX tick size rules
+    - Commodities: round to 2 decimal places for accuracy
+    """
+    if is_commodity:
+        return round(price, 2)
+    return round_to_idx_tick(price)
+
+
+def calculate_support_resistance(df: pd.DataFrame, period: int = 20, is_commodity: bool = False):
     """
     Calculate Support and Resistance using Pivot Points (Classic) and Rolling Min/Max
     """
@@ -79,14 +91,14 @@ def calculate_support_resistance(df: pd.DataFrame, period: int = 20):
     secondary_resistance = resistance_levels[1] if len(resistance_levels) > 1 else r2
 
     return {
-        "pivot": round_to_idx_tick(pivot),
-        "s1": round_to_idx_tick(immediate_support),
-        "s2": round_to_idx_tick(secondary_support),
-        "r1": round_to_idx_tick(immediate_resistance),
-        "r2": round_to_idx_tick(secondary_resistance)
+        "pivot": _round_price(pivot, is_commodity),
+        "s1": _round_price(immediate_support, is_commodity),
+        "s2": _round_price(secondary_support, is_commodity),
+        "r1": _round_price(immediate_resistance, is_commodity),
+        "r2": _round_price(secondary_resistance, is_commodity)
     }
 
-def generate_trading_plan(current_price, signal, s1, s2, r1, r2):
+def generate_trading_plan(current_price, signal, s1, s2, r1, r2, is_commodity: bool = False):
     """
     Generate Buy/Sell targets based on S/R levels and signal
     """
@@ -98,31 +110,30 @@ def generate_trading_plan(current_price, signal, s1, s2, r1, r2):
         "risk_reward": None
     }
     
-    # Round current price to IDX tick
-    current_price_tick = round_to_idx_tick(current_price)
+    # Round current price
+    current_price_tick = _round_price(current_price, is_commodity)
     
     if signal == "bullish":
         plan["action"] = "BUY"
         # Entry near support or current price
-        entry_low = round_to_idx_tick(s1)
+        entry_low = _round_price(s1, is_commodity)
         entry_high = current_price_tick
         plan["entry_zone"] = f"{entry_low} - {entry_high}"
         # Target R1 or R2
-        plan["take_profit"] = round_to_idx_tick(r1) if r1 > current_price * 1.02 else round_to_idx_tick(r2)
+        plan["take_profit"] = _round_price(r1, is_commodity) if r1 > current_price * 1.02 else _round_price(r2, is_commodity)
         # Stop below S2
-        plan["stop_loss"] = round_to_idx_tick(s2 * 0.99)
+        plan["stop_loss"] = _round_price(s2 * 0.99, is_commodity)
     
     elif signal == "bearish":
         plan["action"] = "WAIT TO BUY"
         # For bearish signal: wait for price to drop to support zone before buying
-        # Entry zone should be at or below support levels (cheaper price)
-        entry_low = round_to_idx_tick(s2)
-        entry_high = round_to_idx_tick(s1)
+        entry_low = _round_price(s2, is_commodity)
+        entry_high = _round_price(s1, is_commodity)
         plan["entry_zone"] = f"{entry_low} - {entry_high}"
-        # Take profit at pivot or R1 (above entry zone)
-        plan["take_profit"] = round_to_idx_tick(r1)
+        # Take profit at pivot or R1
+        plan["take_profit"] = _round_price(r1, is_commodity)
         # Stop loss below S2
-        plan["stop_loss"] = round_to_idx_tick(s2 * 0.97)
+        plan["stop_loss"] = _round_price(s2 * 0.97, is_commodity)
         
     # Calculate Risk/Reward
     if plan["take_profit"] and plan["stop_loss"]:

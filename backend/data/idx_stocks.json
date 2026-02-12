@@ -643,5 +643,10 @@
         "symbol": "ZATA.JK",
         "name": "Wahana Anugerah Sejahtera Tbk.",
         "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "SMIL.JK",
+        "name": "PT Sarana Mitra Luas Tbk.",
+        "sector": "Industrials"
     }
 ]
