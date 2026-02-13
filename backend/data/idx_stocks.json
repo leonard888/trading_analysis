@@ -648,5 +648,15 @@
         "symbol": "SMIL.JK",
         "name": "PT Sarana Mitra Luas Tbk.",
         "sector": "Industrials"
+    },
+    {
+        "symbol": "CUAN.JK",
+        "name": "PT Petrindo Jaya Kreasi Tbk.",
+        "sector": "Energy"
+    },
+    {
+        "symbol": "VKTR.JK",
+        "name": "PT VKTR Teknologi Mobilitas Tbk.",
+        "sector": "Consumer Cyclical"
     }
 ]
