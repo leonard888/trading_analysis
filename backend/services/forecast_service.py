@@ -56,12 +56,40 @@ STOCK_COMMODITY_MAP = {
     "INET.JK": {"commodity": None, "commodity_symbol": None, "sector": "ISP & Tech"},
     "MLPL.JK": {"commodity": None, "commodity_symbol": None, "sector": "Holding (Tech/Retail)"},
     
+    # Palm Oil / CPO
+    "AALI.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "ANDI.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "BWPT.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "CBUT.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "CSRA.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "DSNG.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "FAPA.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "GOLL.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "GZCO.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "JARR.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "JAWA.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "LSIP.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "MAGP.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "MGRO.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "MKTR.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "PALM.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "PGUN.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "PNGO.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "PSGO.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "SGRO.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "SIMP.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "SMAR.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "SSMS.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "STAA.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "TAPG.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "TBLA.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    "TLDN.JK": {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"},
+    
     # Property & Hospitality
     "BKSL.JK": {"commodity": None, "commodity_symbol": None, "sector": "Property"},
     "BUVA.JK": {"commodity": None, "commodity_symbol": None, "sector": "Hospitality"},
     "MINA.JK": {"commodity": None, "commodity_symbol": None, "sector": "Property & Hospitality"},
-    "CDIA.JK": {"commodity": None, "commodity_symbol": None, "sector": "Others"}, # Fallback for unknown
-    "CDIA.JK": {"commodity": None, "commodity_symbol": None, "sector": "Others"}, # Fallback for unknown
+    "CDIA.JK": {"commodity": None, "commodity_symbol": None, "sector": "Others"},
 }
 
 # Commodity News Keywords Map
@@ -73,6 +101,7 @@ COMMODITY_NEWS_MAP = {
     "^SPGSNI": {"keywords": ["nickel", "nikel"], "name": "Nickel"},
     "HG=F": {"keywords": ["copper", "tembaga"], "name": "Copper"},
     "NG=F": {"keywords": ["natural gas", "gas alam"], "name": "Natural Gas"},
+    "ZL=F": {"keywords": ["palm oil", "cpo", "sawit", "kelapa sawit", "crude palm oil"], "name": "CPO (Palm Oil)"},
 }
 
 def get_commodity_trend(commodity_symbol: str, period: str = "1mo") -> Dict[str, Any]:
@@ -214,11 +243,9 @@ def detect_commodity_link(symbol: str, name: str = "", sector: str = "") -> Opti
     if "oil" in name_lower or "petroleum" in name_lower or "petro" in name_lower or "migas" in name_lower or ("oil" in sector_lower and "gas" in sector_lower):
         return {"commodity": "oil", "commodity_symbol": "CL=F", "sector": "Oil & Gas"}
         
-    # Palm Oil (CPO) - Approximation using Oil for now (or could add CPO later)
-    # Mapping CPO to Oil as a proxy for energy/commodity sentiment
-    if "sawit" in name_lower or "palm" in name_lower or "plantation" in sector_lower:
-        # CPO isn't in our list yet, skipping or linking to Oil loosely
-        pass
+    # Palm Oil (CPO)
+    if "sawit" in name_lower or "palm" in name_lower or "plantation" in sector_lower or "kelapa" in name_lower:
+        return {"commodity": "cpo", "commodity_symbol": "ZL=F", "sector": "Palm Oil Plantation"}
         
     # Energy General
     if "energy" in name_lower or "energi" in name_lower or "energy" in sector_lower:

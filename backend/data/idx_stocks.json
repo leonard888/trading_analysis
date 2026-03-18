@@ -585,6 +585,11 @@
         "sector": "Consumer Non-Cyclical"
     },
     {
+        "symbol": "TBLA.JK",
+        "name": "PT Tunas Baru Lampung Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
         "symbol": "TBIG.JK",
         "name": "Tower Bersama Infrastructure Tbk.",
         "sector": "Infrastructures"
@@ -658,5 +663,135 @@
         "symbol": "VKTR.JK",
         "name": "PT VKTR Teknologi Mobilitas Tbk.",
         "sector": "Consumer Cyclical"
+    },
+    {
+        "symbol": "COIN.JK",
+        "name": "Indokripto Koin Semesta Tbk.",
+        "sector": "Financial Services"
+    },
+    {
+        "symbol": "AALI.JK",
+        "name": "PT Astra Agro Lestari Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "ANDI.JK",
+        "name": "PT Andira Agro Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "BWPT.JK",
+        "name": "PT Eagle High Plantations Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "CBUT.JK",
+        "name": "PT Catur Sentosa Berhasil Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "CSRA.JK",
+        "name": "PT Cisadane Sawit Raya Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "FAPA.JK",
+        "name": "PT Far East Agri Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "GOLL.JK",
+        "name": "PT Golden Plantation Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "GZCO.JK",
+        "name": "PT Gozco Plantations Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "JARR.JK",
+        "name": "PT Jardine Resources Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "JAWA.JK",
+        "name": "PT Jaya Agra Wattie Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "MAGP.JK",
+        "name": "PT Multi Agro Gemilang Plantation Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "MGRO.JK",
+        "name": "PT Mahkota Group Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "MKTR.JK",
+        "name": "PT Menthobi Karyatama Raya Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "PALM.JK",
+        "name": "PT Provident Agro Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "PGUN.JK",
+        "name": "PT Pradiksi Gunatama Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "PNGO.JK",
+        "name": "PT Pinago Utama Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "PSGO.JK",
+        "name": "PT Palma Serasih Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "SGRO.JK",
+        "name": "PT Sampoerna Agro Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "SIMP.JK",
+        "name": "PT Salim Ivomas Pratama Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "SMAR.JK",
+        "name": "PT SMART Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "SSMS.JK",
+        "name": "PT Sawit Sumbermas Sarana Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "STAA.JK",
+        "name": "PT Sinar Mas Agro Resources and Technology Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "TLDN.JK",
+        "name": "PT Teladan Prima Agro Tbk.",
+        "sector": "Consumer Non-Cyclical"
+    },
+    {
+        "symbol": "TOBA.JK",
+        "name": "PT TBS Energi Utama Tbk.",
+        "sector": "Energy"
+    },
+    {
+        "symbol": "BIPI.JK",
+        "name": "PT Astrindo Nusantara Infrastruktur Tbk.",
+        "sector": "Energy"
     }
 ]

@@ -25,7 +25,8 @@ class TradingApp {
             { symbol: 'SI=F', name: 'Silver' },
             { symbol: 'MTF=F', name: 'Coal' },
             { symbol: '^SPGSNI', name: 'Nickel' },
-            { symbol: 'HG=F', name: 'Copper' }
+            { symbol: 'HG=F', name: 'Copper' },
+            { symbol: 'ZL=F', name: 'CPO (Palm Oil)' }
         ];
 
         // Screener state
@@ -374,7 +375,8 @@ class TradingApp {
                 const symbolMap = {
                     'GC=F': 'gold', 'SI=F': 'silver', 'CL=F': 'oil', 'BZ=F': 'brent',
                     'HG=F': 'copper', 'PL=F': 'platinum', 'PA=F': 'palladium',
-                    'NG=F': 'natural_gas', 'MTF=F': 'coal', '^SPGSNI': 'nickel'
+                    'NG=F': 'natural_gas', 'MTF=F': 'coal', '^SPGSNI': 'nickel',
+                    'ZL=F': 'cpo'
                 };
                 const type = symbolMap[data.symbol] || data.symbol;
                 this.selectCommodity(type);

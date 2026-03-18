@@ -60,6 +60,11 @@ COMMODITIES = {
         "symbol": "^SPGSNI",
         "name": "Nickel Index",
         "unit": "Index"
+    },
+    "cpo": {
+        "symbol": "ZL=F",
+        "name": "CPO / Palm Oil (Soybean Oil Proxy)",
+        "unit": "USc/lb"
     }
 }
 
